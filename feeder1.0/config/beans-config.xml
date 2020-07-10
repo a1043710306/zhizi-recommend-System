@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="  
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util">
+
+
+	<context:component-scan base-package="com.inveno.feeder"/>
+
+	<!-- Initialization for data source -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.1.223:3306/db_mta?useSSL=false&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true"/>
+		<property name="username" value="root"/>
+		<property name="password" value="Newbig#897"/>
+	</bean>
+
+   <!-- Definition for clientJDBCTemplate bean -->
+	<bean id="clientJDBCTemplate" class="com.inveno.feeder.ClientJDBCTemplate" factory-method="getInstance">
+		<property name="dataSource"  ref="dataSource" />    
+	</bean>
+
+	<!-- Initialization for data source comment-->
+	<bean id="dataSourceComment"
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://hotoday-comment.cxleyzgw272j.us-east-1.rds.amazonaws.com:3306/hotoday_comment?useSSL=false&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true"/>
+		<property name="username" value="comment_r"/>
+		<property name="password" value="c3c090bdbc2e06828ac2633bf82dd7ef"/>
+	</bean>
+
+	<!-- Definition for clientJDBCTemplate bean -->
+	<bean id="clientJDBCTemplateComment" class="com.inveno.feeder.ClientJDBCTemplateComment" factory-method="getInstance">
+		<property name="dataSource"  ref="dataSourceComment" />
+	</bean>
+</beans>

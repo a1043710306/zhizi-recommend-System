@@ -1,0 +1,3 @@
+install nlp-md5 first.
+command:
+    mvn install:install-file -Dfile=./lib/nlp-md5-0.0.3.jar -DgroupId=cn.inveno -DartifactId=nlp-md5 -Dversion=0.0.3 -Dpackaging=jar

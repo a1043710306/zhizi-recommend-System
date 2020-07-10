@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util">
+
+    <bean id="dataSourceTransFacade" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://10.20.10.202:3306/db_mta?useSSL=false&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true"/>
+        <property name="username" value="feeder_w"/>
+        <property name="password" value="8d4a9b5f4abb339d65ea6f3556081528"/>
+    </bean>
+    <bean id="ContentFacade" class="com.inveno.server.contentgroup.facade.ContentFacade" factory-method="getInstance">
+        <property name="dataSource" ref="dataSourceTransFacade"/>
+    </bean>
+</beans>
