@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.ContentIndexMapper" >
+
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.ContentIndex" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="content_id" property="contentId" jdbcType="VARCHAR" />
+		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+		id,content_id, table_name
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.ContentExtend" >
+		insert into t_index (content_id, table_name)
+		values (#{contentId,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="selectByContentId" resultMap="BaseResultMap" parameterType="string">
+		select <include refid="Base_Column_List" />
+		from t_index where content_id <![CDATA[ = ]]> #{contentId}
+	</select>
+
+	<update id="updateByContentId" parameterType="inveno.spider.common.model.ContentExtend" >
+		update t_index
+		<set>
+			<if test="tableName != null" >
+				table_name = #{tableName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where content_id = #{contentId,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

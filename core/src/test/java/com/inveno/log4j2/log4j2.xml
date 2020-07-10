@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error">
+	<Properties>
+		<Property name="baseDir">/usr/local/inveno/tomcat-dubboCoreZhizi/logs</Property>
+	</Properties>
+
+	<!--先定义所有的appender -->
+	<appenders>
+		<!--这个输出控制台的配置 -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY" />
+			<!--这个都知道是输出日志的格式 -->
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+		</Console>
+
+		<RollingFile name="zhiziCore_daily" fileName="${baseDir}/zhiziCore_daily.log"
+			filePattern="${baseDir}/$${date:yyyy-MM-dd}/zhiziCore_daily-%d{yyyy-MM-dd-HH}-%i.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5000 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="500">
+				<!-- Nested conditions: the inner condition is only evaluated on files 
+					for which the outer conditions are true. -->
+				<!-- <Delete basePath="${baseDir}" maxDepth="2">
+					<IfFileName glob="*/app-*.log.gz">
+						<IfLastModified age="30d">
+							<IfAny>
+								<IfAccumulatedFileSize exceeds="100 GB" />
+								<IfAccumulatedFileCount exceeds="10" />
+							</IfAny>
+						</IfLastModified>
+					</IfFileName>
+				</Delete> -->
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<!-- 本配置会将所有的error日志输出的logs/errpo.log -->
+		<RollingFile name="zhiziCore_daily_error" fileName="${baseDir}/zhiziCore_error_daily.log"
+			filePattern="${baseDir}/$${date:yyyy-MM}/zhiziCore_error_daily-%d{yyyy-MM-dd-HH}-%i.log.gz">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="500 MB" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="qcn_daily_log" fileName="${baseDir}/qcn_daily.log"
+			filePattern="${baseDir}/$${date:yyyy-MM-dd}/qcn_daily-%d{yyyy-MM-dd-HH}-%i.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="500 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="500">
+				<!-- Nested conditions: the inner condition is only evaluated on files 
+					for which the outer conditions are true. -->
+				<!-- <Delete basePath="${baseDir}" maxDepth="2">
+					<IfFileName glob="*/app-*.log.gz">
+						<IfLastModified age="30d">
+							<IfAny>
+								<IfAccumulatedFileSize exceeds="100 GB" />
+								<IfAccumulatedFileCount exceeds="10" />
+							</IfAny>
+						</IfLastModified>
+					</IfFileName>
+				</Delete> -->
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="cmslog" fileName="${baseDir}/cms.log" 
+			filePattern="${baseDir}/cms-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="initProcessLog" fileName="${baseDir}/initProcessLog.log"
+			filePattern="${baseDir}/$${date:yyyy-MM-dd}/initProcessLog-%d{yyyy-MM-dd-HH}-%i.log.gz">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="500 MB" />
+			</Policies>
+		</RollingFile>
+		
+		
+		<RollingFile name="RequestLog" fileName="${baseDir}/RequestLog.log" 
+			filePattern="${baseDir}/RequestLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="ReponseLog" fileName="${baseDir}/ReponseLog.log" 
+			filePattern="${baseDir}/ReponseLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="QCNRequestLog" fileName="${baseDir}/QCNRequestLog.log" 
+			filePattern="${baseDir}/QCNRequestLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="QCNResponseLog" fileName="${baseDir}/QCNResponseLog.log" 
+			filePattern="${baseDir}/QCNResponseLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="QBResponseLog" fileName="${baseDir}/QBResponseLog.log" 
+			filePattern="${baseDir}/QBResponseLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+		<!-- %d{yyyy-MM-dd HH:mm:ss}||%m%n -->
+		<RollingFile name="monitorlog" fileName="${baseDir}/monitor/coreMonitor.log" 
+			filePattern="${baseDir}/monitor/coreMonitor-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss}||%m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+		
+
+		<!-- <RollingFile name="RequestLog" fileName="${baseDir}/RequestLog.log"
+			filePattern="${baseDir}/RequestLog-%d{MM-dd-yyyy}-%i.log">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="20000 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="2000" />
+		</RollingFile> -->
+
+		<!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 
+		<RollingFile name="RollingFile" fileName="logs/app.log"
+			filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="50MB" />
+		</RollingFile>
+		-->
+		
+	</appenders>
+
+
+	<!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		
+		<!--我们只让这个logger输出trace信息，其他的都是error级别-->
+            <!--
+            additivity开启的话，由于这个logger也是满足root的，所以会被打印两遍。
+            不过root logger 的level是error，为什么Bar 里面的trace信息也被打印两遍呢
+            -->
+		<logger name="reqLog" level="info" additivity="false">
+			<appender-ref ref="RequestLog" />
+		</logger>
+		
+		<logger name="resLog" level="info" additivity="false">
+			<appender-ref ref="ReponseLog" />
+		</logger>
+		
+		<logger name="qcnreqLog" level="info" additivity="false">
+			<appender-ref ref="QCNRequestLog" />
+		</logger>
+		
+		<logger name="qcnresLog" level="info" additivity="false">
+			<appender-ref ref="QCNResponseLog" />
+		</logger>
+		
+		<logger name="qbresLog" level="info" additivity="false">
+			<appender-ref ref="QBResponseLog" />
+		</logger>
+		
+		<logger name="qbresLog" level="info" additivity="false">
+			<appender-ref ref="QBResponseLog" />
+		</logger>
+		
+		<logger name="qcnlog" level="info" additivity="false">
+			<appender-ref ref="qcn_daily_log" />
+		</logger>
+		
+		<logger name="cmslog" level="info" additivity="false">
+			<appender-ref ref="cmslog" />
+		</logger>
+		
+		<logger name="monitorlog" level="info" additivity="false">
+			<appender-ref ref="monitorlog" />
+		</logger>
+		
+		<logger name="toErrFile" level="error" additivity="false">
+			<appender-ref ref="zhiziCore_daily_error" />
+		</logger>
+		
+		<!--建立一个默认的root的logger -->
+		<root level="info">
+			<appender-ref ref="zhiziCore_daily" />
+ 		</root>
+	</loggers>
+</configuration>

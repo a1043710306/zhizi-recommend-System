@@ -1,0 +1,2 @@
+thrift2=com.sodao.dubbo.thrift.proxy.ThriftProxyFactory
+dubbo=com.alibaba.dubbo.rpc.proxy.jdk.JdkProxyFactory

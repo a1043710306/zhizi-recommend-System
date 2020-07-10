@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.IdMappingMapper">
+	<sql id="columns">
+		news_id,create_time,description
+	</sql>
+	
+	<resultMap type="IdMapping" id="IdMappingMap">
+		<result property="newsId" column="news_id" />
+		<result property="createTime" column="create_time" />
+		<result property="description" column="description" />
+	</resultMap>
+	
+	<select id="selectList" resultType="inveno.spider.common.model.IdMapping" resultMap="IdMappingMap" parameterType="Integer">
+		select <include refid="columns" /> from t_turn_id where news_id <![CDATA[ > ]]> #{newsId} order by news_id limit 10
+	</select>
+	
+	<select id="selectLastOne" resultType="Integer">
+		select news_id from t_turn_id order by news_id desc limit 1
+	</select>
+	
+	<insert id="insert" parameterType="list" flushCache="true"
+		statementType="PREPARED" timeout="20000">
+		INSERT INTO t_turn_id (
+			<include refid="columns"/>
+		)
+		VALUES
+       		(#{newsId},null,#{description})
+	</insert>
+	
+	<insert id="insertList" parameterType="list" flushCache="true"
+		statementType="PREPARED" timeout="20000">
+		INSERT INTO t_turn_id (
+			<include refid="columns"/>
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">    
+       		 <![CDATA[ (#{newsId},null,#{description}) ]]>
+		</foreach>
+	</insert>
+</mapper>

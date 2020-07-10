@@ -1,0 +1,75 @@
+Version 0.1.2
+Changes:
+	1. Fixed to add second for s_channel_content/s_channel_content_audit to save duration of video.
+
+Version 0.0.18_20160519
+Changes:
+	1.修改RSS配置，可以自定义RSS节点。	
+
+Version 0.0.17_20150114
+Changes:
+	1.添加资讯类型，以确保前端能正常展示视频。	
+	
+Version 0.0.16_20150112
+Changes:
+	1.为源和资讯添加是否评论标识。	
+	
+Version 0.0.15_20141230
+Changes:
+	1.为源添加标签、地域字段。
+	
+Version 0.0.14_20141110
+Changes:
+	1.将源等级加到到资讯分值计算中。
+	
+Version 0.0.13_20140922
+Changes:
+	1.增加内容页跳转解析功能。
+	
+Version 0.0.12_20140919
+Changes:
+	1.增加RSS内容源解析时对GMT日期格式的识别。	
+	
+Version 0.0.11_20140917
+Changes:
+	1.修复一个RSS内容源解析图片的Bug。	
+	
+Version 0.0.10_20140903
+Changes:
+	1.增加含JS媒体处理。		
+	
+Version 0.0.9_20140820
+Changes:
+	1.采用json传输资讯。	
+	
+Version 0.0.8_20140808
+Changes:
+	1.增加资讯导语的解析抓取。
+	
+Version 0.0.7_20140723
+Changes:
+	1.修复对内容页下一页判断逻辑的Bug。	
+	
+Version 0.0.6_20140722
+Changes:
+	1.优化RSS源解析对日期格式（EEE, dd MMM yyyy hh:mm:ss Z）的识别。
+	
+Version 0.0.5_20140718
+Changes:
+	1.优化内容页的下一页判断逻辑。		
+	
+Version 0.0.4_20140716
+Changes:
+	1.添加自动启动参数。		
+
+Version 0.0.3_20140704
+Changes:
+	1.优化结点解析性能。
+	2.添加一个突破防盗链接的属性，名称为referer。		
+
+Version 0.0.2_20140701
+	优化解析时过滤指定节点功能。
+								
+Version 0.0.1_20140619
+Feature:
+	解析模块，负责对HTML文件按Profile里定义的规则进行解析。

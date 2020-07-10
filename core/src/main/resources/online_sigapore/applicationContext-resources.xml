@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd  
+    http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx.xsd  
+    http://www.springframework.org/schema/jdbc  
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd  
+    http://www.springframework.org/schema/cache  
+    http://www.springframework.org/schema/cache/spring-cache.xsd  
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd  
+    http://www.springframework.org/schema/util  
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+    http://code.alibabatech.com/schema/dubbo 
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<!-- 配置线程池 -->
+	<bean id="threadPoolTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="200" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="300" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="1000" />
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="queueCapacity" value="5000" />
+	</bean>
+
+	<!-- 链接池配置 -->
+	<bean id="poolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<!-- 可分配对象的最大数 -->
+		<property name="maxTotal" value="1000" />
+		<!-- 等待对象最大数 -->
+		<property name="maxIdle" value="500" />
+		<property name="minIdle" value="20" />
+		<property name="maxWaitMillis" value="3000" />
+	</bean>
+
+	<bean id="modelPooledThreadFactory" class="com.inveno.common.factory.GBDTClientPooledThreadFactory">
+		<property name="host" value="${GBDT.thrift.ip}" />
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="port" value="${GBDT.thrift.port}" />
+		<property name="timeout" value="75" />
+	</bean>
+
+	<bean id="modelThriftPool" class="org.apache.commons.pool2.impl.GenericObjectPool">
+		<constructor-arg ref="modelPooledThreadFactory">
+		</constructor-arg>
+		<constructor-arg ref="poolConfig">
+		</constructor-arg>
+	</bean>
+
+
+	<!-- <bean id="resultHandler" class="com.inveno.core.process.ResultHandler" 
+		> <property name="readFilterInfo" ref="readFilterInfo" /> </bean> -->
+
+	<!-- 算法服务的service -->
+	<!-- <bean id="redisHandler" class="com.inveno.core.process.RedisHandler"> 
+		<property name="algoInfoPageService" ref="algoInfoPageService" /> </bean> -->
+
+	<!-- 该配置必须放在spring主配置集中 -->
+	<cache:annotation-driven cache-manager="ehcacheManager" />
+
+	<!-- 已读资讯链接池工厂 -->
+	<bean id="readFilterThreadFactory" class="com.inveno.common.factory.ClientPooledThreadFactory">
+		<property name="host" value="${filter.read.ip}" />
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="port" value="${filter.read.port}" />
+		<property name="timeout" value="35" />
+	</bean>
+
+	<!-- 已读资讯连接池 -->
+	<bean id="readFilterThriftPool" class="org.apache.commons.pool2.impl.GenericObjectPool">
+		<constructor-arg ref="readFilterThreadFactory">
+		</constructor-arg>
+		<constructor-arg ref="poolConfig">
+		</constructor-arg>
+	</bean>
+
+	<!-- 已读资讯过滤 -->
+	<bean id="readFilterInfo" class="com.inveno.common.filter.impl.ReadedInfoHandler"
+		scope="prototype">
+		<property name="thriftPool" ref="readFilterThriftPool" />
+	</bean>
+
+	<!-- 链接池配置 -->
+	<bean id="ufspoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<!-- 可分配对象的最大数 -->
+		<property name="maxTotal" value="1000" />
+		<!-- 等待对象最大数 -->
+		<property name="maxIdle" value="500" />
+		<property name="minIdle" value="20" />
+		<property name="maxWaitMillis" value="3000" />
+	</bean>
+
+	<!-- 已读资讯链接池工厂 -->
+	<bean id="ufsClientPooledFactory" class="com.inveno.common.factory.UfsClientPooledThreadFactory">
+		<property name="host" value="${ufs.ip}" />
+		<!-- 线程池所使用的缓冲队列 -->
+		<property name="port" value="${ufs.port}" />
+		<property name="timeout" value="25" />
+	</bean>
+
+	<!-- 已读资讯连接池 -->
+	<bean id="ufsThriftPool" class="org.apache.commons.pool2.impl.GenericObjectPool">
+		<constructor-arg ref="ufsClientPooledFactory" />
+		<constructor-arg ref="ufspoolConfig" />
+	</bean>
+
+	<!-- 最新资讯 <bean id="newsQPolicy" class="com.inveno.core.process.newsQ.NewsQPolicyImpl" 
+		scope="prototype"> <property name="readFilterInfo" ref="readFilterInfo" /> 
+		</bean> -->
+
+
+	<!-- 链接池配置 -->
+	<bean id="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<!-- 可分配对象的最大数 -->
+		<property name="maxTotal" value="1500" />
+		<!-- 等待对象最大数 -->
+		<property name="maxIdle" value="500" />
+		<property name="minIdle" value="20" />
+		<property name="maxWaitMillis" value="30" />
+		<!--property name="blockWhenExhausted" value="true"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="timeBetweenEvictionRunsMillis" value="600000" />
+		<property name="minEvictableIdleTimeMillis" value="500000"/-->
+	</bean>
+
+	<bean id="jedisCluster" class="com.inveno.common.factory.JedisClusterFactory">
+		<property name="addressConfig">
+			<value>classpath:connect-redis.properties</value>
+		</property>
+		<property name="addressKeyPrefix" value="address" />   <!-- 属性文件里 key的前缀 -->
+		<property name="timeout" value="3000" />
+		<property name="maxRedirections" value="6" />
+		<property name="genericObjectPoolConfig" ref="genericObjectPoolConfig" />
+	</bean>
+
+	<!-- 链接池配置 -->
+	<bean id="genericObjectPoolConfigFallBack" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<!-- 可分配对象的最大数 -->
+		<property name="maxTotal" value="1000" />
+		<!-- 等待对象最大数 -->
+		<property name="maxIdle" value="500" />
+		<property name="minIdle" value="20" />
+		<property name="maxWaitMillis" value="300" />
+		<property name="blockWhenExhausted" value="true"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="timeBetweenEvictionRunsMillis" value="600000" />
+		<property name="minEvictableIdleTimeMillis" value="500000"/>
+	</bean>
+
+
+	<bean id="jedisClusterFallBack" class="com.inveno.common.factory.JedisClusterFactory">
+		<property name="addressConfig">
+			<value>classpath:connect-redis-fallback.properties</value>
+		</property>
+		<property name="addressKeyPrefix" value="address" />   <!-- 属性文件里 key的前缀 -->
+		<property name="timeout" value="15" />
+		<property name="maxRedirections" value="3" />
+		<property name="genericObjectPoolConfig" ref="genericObjectPoolConfigFallBack" />
+	</bean>
+    
+            <!-- 链接池配置 -->
+    <bean id="genericObjectPoolConfigDetail" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+        <!-- 可分配对象的最大数 -->
+        <property name="maxTotal" value="200" />
+        <!-- 等待对象最大数 -->
+        <property name="maxIdle" value="50" />
+        <property name="minIdle" value="20" />
+        <property name="maxWaitMillis" value="300" />
+        <!-- <property name="blockWhenExhausted" value="true"/>
+                    <property name="testOnBorrow" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="600000" />
+        <property name="minEvictableIdleTimeMillis" value="500000"/> -->
+    </bean>
+    
+    <bean id="jedisClusterDetail" class="com.inveno.common.factory.JedisClusterFactory">
+        <property name="addressConfig">
+            <value>classpath:connect-redis-detail.properties</value>
+        </property>
+        <property name="addressKeyPrefix" value="address" />   <!-- 属性文件里 key的前缀 -->
+        <property name="timeout" value="3000" />
+        <property name="maxRedirections" value="6" />
+        <property name="genericObjectPoolConfig" ref="genericObjectPoolConfigDetail" />
+    </bean>
+	
+	<!-- <bean id="primarySelectionFiltered"  class="com.inveno.core.process.gmp.impl.PrimarySelectionFilteredImpl" >
+		<property name="dubbPrimarySelectionFiltered" ref="dubbPrimarySelectionFiltered" />
+		<property name="monitorLog" ref="monitorLog"/>
+		<property name="jedisCluster" ref="jedisCluster"/>
+	</bean> -->
+
+</beans>

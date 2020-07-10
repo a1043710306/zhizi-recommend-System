@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="spider-new-cleaner" class="org.apache.log4j.DailyRollingFileAppender"> 
+    <param name="file" value="logs/spider-new-cleaner.log"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd" />
+    <param name="MaxBackupIndex" value="7"/>
+    <param name="Encoding" value="UTF-8"/>
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d %-5p %l- %m%n"/> 
+    </layout> 
+  </appender>
+  
+   <appender name="spider-new-cleaner-other" class="org.apache.log4j.DailyRollingFileAppender"> 
+    <param name="file" value="logs/spider-new-cleaner-other.log"/>
+    <param name="DatePattern" value="'.'yyyy-MM-dd" />
+    <param name="MaxBackupIndex" value="7"/>
+    <param name="Encoding" value="UTF-8"/>
+    <layout class="org.apache.log4j.PatternLayout"> 
+      <param name="ConversionPattern" value="%d %-5p %l- %m%n"/> 
+    </layout> 
+  </appender>
+  
+  <logger name="inveno.spider" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="spider-new-cleaner" />
+  </logger>
+  
+  <logger name="org.apache.http" additivity="false">
+    <level value="OFF" />
+  </logger>
+
+  <logger name="org.apache.http.wire" additivity="false">
+    <level value="OFF" />
+  </logger>
+
+  <root>
+    <priority value="warn" />
+    <appender-ref ref="spider-new-cleaner-other" />
+  </root>
+
+</log4j:configuration>

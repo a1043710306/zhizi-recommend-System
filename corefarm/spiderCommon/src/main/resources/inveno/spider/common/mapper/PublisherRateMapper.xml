@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.PublisherRateMapper">
+	<sql id="columns">
+		id, language, publisher, rate
+	</sql>
+	
+	<resultMap type="PublisherRate" id="PublisherRateMap">
+		<id property="id" column="id" />
+		<result property="language"  column="language" />
+		<result property="publisher" column="publisher" />
+		<result property="rate"      column="rate" />
+	</resultMap>
+
+
+	<select id="select" resultType="PublisherRate"
+		resultMap="PublisherRateMap" parameterType="PublisherRate">
+		SELECT
+		<include refid="columns" />
+		FROM t_rate_publisher WHERE status = 1
+	</select>
+</mapper>

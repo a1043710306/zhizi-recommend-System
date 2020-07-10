@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+
+<dwr>
+  <allow>
+    <create creator="new" javascript="JDate">
+      <param name="class" value="java.util.Date"/>
+    </create>
+    
+    <create creator="script" javascript="Parser">
+      <param name="class" value="inveno.spider.parser.ParseServer"/>
+      <param name="language" value="beanshell"/>
+      <param name="script">
+      import inveno.spider.parser.ParseServer;
+      return ParseServer.getInstance();
+    </param>
+    </create>
+    
+  </allow>
+</dwr>

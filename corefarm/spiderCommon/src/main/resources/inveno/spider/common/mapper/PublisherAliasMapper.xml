@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.PublisherAliasMapper">
+	<sql id="columns">
+		id, name, alias, status, operator, update_time
+	</sql>
+	
+	<resultMap type="PublisherAlias" id="PublisherAliasMap">
+		<id property="id" column="id"  jdbcType="INTEGER" />
+		<result property="name"  column="name" jdbcType="VARCHAR" />
+		<result property="alias" column="alias"  jdbcType="VARCHAR" />
+		<result property="status"      column="status"  jdbcType="INTEGER" />
+		<result property="operator"      column="operator" jdbcType="VARCHAR" />
+		<result property="update_time"      column="updateTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.PublisherAlias" >
+		insert into t_publisher_alias (name, operator, update_time) values (#{name,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, now())
+	</insert>
+	
+	<select id="selectByAlias" resultType="inveno.spider.common.model.PublisherAlias" resultMap="PublisherAliasMap" parameterType="string">
+		select <include refid="columns" /> from t_publisher_alias where alias <![CDATA[ = ]]> #{alias}
+	</select>
+	
+</mapper>

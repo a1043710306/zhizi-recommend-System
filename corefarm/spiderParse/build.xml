@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Parser" default="jar" basedir=".">
+	<property environment="env" />
+	<property name="src" value="${basedir}/src" />
+	<property name="bin" value="${basedir}/WebContent/WEB-INF/classes" />
+	<property name="build" value="${basedir}/build" />
+	<property name="war" value="${build}/war" />
+	<property name="lib" value="${basedir}/WebContent/WEB-INF/lib" />		
+	
+	<property file="version.properties" />
+	<property name="jarname" value="spider-parser-${version}.jar"></property>
+	
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+	
+	<target name="init">
+			<mkdir dir="${war}" />
+			<mkdir dir="${bin}" />
+
+			<path id="classpath">
+				<fileset dir="${env.JAVA_HOME}">
+					<include name="jre/lib/rt2.jar" />
+				</fileset>
+				<fileset dir="${env.TOMCAT_HOME}">
+					<include name="**/*.jar" />
+				</fileset>				
+				<pathelement location="${build}" />
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+	</target>
+	
+	<target name="compile">
+		<javac  encoding="UTF-8"  srcdir="${src}" destdir="${bin}" includeantruntime="false" compiler="modern" fork="yes" debug="on"
+			source="1.6" target="1.6">
+			<classpath refid="classpath" />
+			<compilerarg value="-Xlint:-path" />
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/> 
+		</javac>
+		<echo>Compile...</echo>
+	</target>	
+	
+
+	<target name="jar" depends="clean,init,compile">
+		<jar destfile="${build}/${jarname}">
+			<fileset dir="WebContent/WEB-INF/classes" includes="**/*">
+				<exclude name="spider-downloader.properties"/>
+				<exclude name="spider-common.properties"/>
+				<exclude name="spider-parser.properties"/>
+				<exclude name="log4j.xml"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="war(Testing)" description="War file for Testing">
+			<property name="env" value="testing">
+			</property>
+			<antcall target="war">
+			</antcall>
+		</target>	
+	
+	<target name="war(151)" description="War file for production 151">
+		<property name="env" value="151">
+		</property>
+		<antcall target="war">
+		</antcall>
+	</target>
+	
+	<target name="war(69)" description="War file for production 69">
+		<property name="env" value="69">
+		</property>
+		<antcall target="war">
+		</antcall>
+	</target>
+	
+	<target name="war(16)" description="War file for production 16">
+				<property name="env" value="16">
+				</property>
+				<antcall target="war">
+				</antcall>
+	</target>
+
+		<target name="war" depends="clean,init,compile">
+			<copy todir="build/war">
+				<fileset dir="WebContent" includes="**/*">
+				</fileset>
+			</copy>
+
+			<copy todir="build/war/WEB-INF/classes" overwrite="true">
+				<fileset dir="conf/${env}" includes="**/*"  excludes="web.xml">
+				</fileset>
+			</copy>
+			
+			<copy todir="build/war/WEB-INF" overwrite="true">
+				<fileset dir="conf/${env}" includes="web.xml">
+				</fileset>
+			</copy>
+			
+			<replace file="build/war/index.jsp" propertyfile="version.properties">
+				<replacefilter token="$version$" property="version" />
+			</replace>
+
+			<jar destfile="build/spider-parser.war">
+				<fileset dir="build/war" includes="**/*">
+				</fileset>
+			</jar>
+
+		</target>	
+
+</project>

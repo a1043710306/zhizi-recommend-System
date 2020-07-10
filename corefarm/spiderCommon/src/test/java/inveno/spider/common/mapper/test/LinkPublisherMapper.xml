@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.test.LinkPublisherMapper" >
+
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.test.LinkPublisher" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="link" property="link" jdbcType="VARCHAR" />
+		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
+		<result column="source_feeds_url" property="sourceFeedsUrl" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+		id, link, publisher, source_feeds_url, update_time
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.test.LinkPublisher" >
+		insert into ${tableName} (link, publisher, source_feeds_url, update_time)
+		values (#{link,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{sourceFeedsUrl,jdbcType=VARCHAR}, now())
+	</insert>
+
+</mapper>

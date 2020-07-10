@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.CategoryMapper">
+	<sql id="columns">
+		id,category_name
+	</sql>
+	
+	<resultMap type="Category" id="CategoryMapper">
+		<id property="id" column="id" />
+		<result property="categoryName" column="category_name" />
+	</resultMap>
+
+
+	<select id="select" resultType="Category" resultMap="CategoryMapper">
+		SELECT
+			<include refid="columns" />
+		FROM t_category_type 
+	</select>
+
+	<select id="listCategory" resultType="Category" resultMap="CategoryMapper" parameterType="map">
+		SELECT <include refid="columns" />
+		FROM t_category where version=#{version,jdbcType=INTEGER}
+	</select>
+</mapper>

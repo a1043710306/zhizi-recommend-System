@@ -1,0 +1,303 @@
+package inveno.spider.reports.util;
+
+import java.util.*;
+
+import org.apache.log4j.Logger;
+import com.google.gson.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import tw.qing.util.PrimitiveTypeUtil;
+
+import inveno.spider.common.facade.AbstractDBFacade;
+import inveno.spider.common.util.JsonUtils;
+import inveno.spider.reports.facade.ContentFacade;
+
+import inveno.task.sendInfo.dao.ChannelContentDao;
+import inveno.task.sendInfo.dao.impl.ChannelContentDaoImpl;
+import inveno.task.sendInfo.model.ChannelContent;
+import inveno.task.sendInfo.model.ContentDTO;
+
+/**
+ * Created by dell on 2016/5/17.
+ */
+public class DataCorrector
+{
+	private static final Logger log = Logger.getLogger(DataCorrector.class);
+
+	public static int determineDisplayType(String title, String content, ArrayList alListImage, ArrayList alBodyImage)
+	{
+		int _displayType = 0x01;
+		try
+		{
+			if (alBodyImage.size() >= 1)
+				_displayType |= 0x02;
+			if (alBodyImage.size() >= 3)
+				_displayType |= 0x04;
+
+			//判斷通欄
+			String _fallImage = null;
+			for (int i = 0; i < alBodyImage.size(); i++)
+			{
+				HashMap mBodyImage = (HashMap)alBodyImage.get(i);
+				if (mBodyImage.get("width") != null && mBodyImage.get("height") != null)
+				{
+					int width  = Integer.parseInt(String.valueOf(mBodyImage.get("width")));
+					int height = Integer.parseInt(String.valueOf(mBodyImage.get("height")));
+					if (width >= 400 && height >= 200)
+					{
+						_displayType |= 0x80;
+					}
+					if (width >= 664 && height >= 400)
+					{
+						_displayType |= 0x08;
+						if (_fallImage == null)
+							_fallImage = (String)mBodyImage.get("src");
+					}
+					if (width >= 1024 && height >= 768)
+						_displayType |= 0x1000;
+				}
+				boolean bGif = false;;
+				if (mBodyImage.get("format") != null)
+				{
+					if ("gif".equalsIgnoreCase((String)mBodyImage.get("format")))
+						bGif = true;
+				}
+				if (bGif)
+					_displayType |= 0x400;
+			}
+
+			if (alListImage.size() >= 3)
+				_displayType |= 0x10;
+
+			if (title != null && content != null && title.length() > 0 && content.length() > 0)
+				_displayType |= 0x20;
+
+			if (alBodyImage.size() >= 6)
+				_displayType |= 0x40;
+		}
+		catch (Exception e)
+		{
+			//ignore e
+		}
+
+		return _displayType;
+	}
+
+	public static int[] determineDimension(String imageLink) throws Exception
+	{
+		int width = -1;
+		int height = -1;
+		String query = (new java.net.URL(imageLink)).getQuery();
+		if (query.indexOf("=") < 0 && query.indexOf("*") >= 0)
+		{
+			//imageT format, no parameter name;
+			String[] d = query.split("\\*");
+			width  = Integer.parseInt(d[0]);
+			height = Integer.parseInt(d[1]);
+		}
+		else
+		{
+			//image cloud format
+			String[] param = query.split("&");
+			for (int j = 0; j < param.length; j++)
+			{
+				String[] pair = param[j].split("=");
+				if (pair[0].equalsIgnoreCase("size"))
+				{
+					String[] d = pair[1].split("\\*");
+					width  = Integer.parseInt(d[0]);
+					height = Integer.parseInt(d[1]);
+					break;
+				}
+			}
+		}
+		if (width < 0 || height < 0)
+		{
+			try
+			{
+				java.awt.image.BufferedImage image = ImageHelper.decodeImage((new java.net.URL(imageLink)).openStream());
+				width = image.getWidth();
+				height = image.getHeight();
+			}
+			catch (Exception e)
+			{
+				width = -1;
+				height = -1;
+			}
+
+		}
+		return new int[]{width, height};
+	}
+	public static String[] extractImageLink(String content) throws Exception
+	{
+		ArrayList alImageLink = new ArrayList();
+		Document doc = Jsoup.parse(content);
+		Elements elem = doc.select("img");
+		for (Element e : elem)
+		{
+			alImageLink.add( e.attr("src") );
+		}
+		return (String[])alImageLink.toArray(new String[0]);
+	}
+	/*
+	public static String[] extractImageLink(String src) throws Exception
+	{
+		Element image = document.select("img").
+		ArrayList alImageLink = new ArrayList();
+		try
+		{
+			Parser parser = Parser.createParser(src, System.getProperty("file.encoding"));
+			NodeFilter filter = new NodeClassFilter(ImageTag.class);
+			NodeList list = parser.extractAllNodesThatMatch(filter);
+			SimpleNodeIterator iterator = list.elements();
+			while(iterator.hasMoreNodes()) {
+				//这个地方需要记住
+				Node node = iterator.nextNode();
+				TagNode tagNode = new TagNode();
+				//一旦得到了TagNode ， 就可以得到其中的属性值
+				tagNode.setText(node.toHtml());
+				String imgLink = null;
+				if (tagNode.getAttribute("src") != null && tagNode.getAttribute("src").length() > 0)
+				{
+					imgLink = tagNode.getAttribute("src");
+				}
+				if (imgLink != null)
+					alImageLink.add( imgLink );
+			}
+		}
+		catch (Exception e)
+		{
+			log.warn("[extractImageLink]", e);
+		}
+		return (String[])alImageLink.toArray(new String[0]);
+	}
+	*/
+	public void correctTurnData(int startNewsId)
+	{
+		java.util.Date update_time = new java.util.Date();
+		Gson gson = new Gson();
+		HashMap versionCategoryMapping = ContentFacade.getInstance().getVersionCategoryMapping();
+		System.out.println("versionCategoryMapping:" + versionCategoryMapping);
+		while (true)
+		{
+			ArrayList alTurn = ContentFacade.getInstance(AbstractDBFacade.DBNAME_CRAWLER).listTurnData(startNewsId);
+			if (alTurn.size() <= 0)
+			{
+				break;
+			}
+			int nextStartNewsId = -1;
+
+			inveno.task.sendInfo.utils.ConfigCache.getInstance().init(inveno.task.sendInfo.utils.RedisCacheService.getInstatnce());
+			inveno.task.sendInfo.batch.ContentTurnServer server = inveno.task.sendInfo.batch.ContentTurnServer.getInstance();
+			ChannelContentDao ccd = new ChannelContentDaoImpl();
+
+			for (int i = 0; i < alTurn.size(); i++)
+			{
+				HashMap mTurnData = (HashMap)alTurn.get(i);
+				int contentId = Integer.parseInt( String.valueOf(mTurnData.get("news_id")) );
+				try
+				{
+					HashMap mChannelContent = ContentFacade.getInstance().getChannelContent(contentId);
+					HashMap mContent = ContentFacade.getInstance(AbstractDBFacade.DBNAME_CRAWLER).getContent(contentId);
+					String title   = (String)mContent.get("title");
+					//correct body_images
+					if (title == null || title.length() <= 0)
+					{
+						ChannelContent content = ccd.findById(contentId);
+						ContentDTO contentDTO = inveno.task.sendInfo.processor.ContentTurnWork.getInstance().channelContentTurnInfo(content);
+						System.out.println("update content " + contentId + "\t" + server.save(contentDTO));
+					}
+					/*
+					String[] imageLink = extractImageLink(content);
+					ArrayList alBodyImages = new ArrayList();
+					for (int j = 0; imageLink != null && j < imageLink.length; j++)
+					{
+						HashMap mImage = new HashMap();
+						int[] d = determineDimension(imageLink[j]);
+						mImage.put("src", imageLink[j]);
+						mImage.put("width", d[0]);
+						mImage.put("height", d[1]);
+						mImage.put("desc", "");
+						mImage.put("format", "jpg");
+						alBodyImages.add(mImage);
+					}
+					//correct categories
+					boolean fUpdate = true;
+					Map<String, Object> mNewCategories = null;
+					String categories = (String)mContent.get("categories");
+					if (categories != null)
+					{
+						Object obj = JsonUtils.toJavaObject(gson.fromJson(categories, JsonElement.class));
+						if (obj instanceof Map)
+						{
+							mNewCategories = new HashMap<String, Object>();
+							Map<String, Object> mCategories = (Map<String, Object>)obj;
+							ArrayList alV1Category = (ArrayList)mCategories.get("v1");
+							ArrayList alV4Category = (ArrayList)mCategories.get("v4");
+							ArrayList alNewV1Category = new ArrayList();
+							ArrayList alNewV4Category = new ArrayList();
+							for (int k = 0; k < alV1Category.size(); k++)
+							{
+								int categoryId   = Integer.parseInt( String.valueOf(((HashMap)alV1Category.get(k)).get("category")) );
+								if (versionCategoryMapping.get(categoryId) == null)
+									continue;
+
+								int v4categoryId = PrimitiveTypeUtil.getInt(versionCategoryMapping.get(categoryId));
+								HashMap newV1CategoryMap = new HashMap();
+								newV1CategoryMap.put("category", categoryId);
+								alNewV1Category.add( newV1CategoryMap );
+								HashMap newV4CategoryMap = new HashMap();
+								newV4CategoryMap.put("category", v4categoryId);
+								alNewV4Category.add( newV4CategoryMap );
+							}
+							mNewCategories.put("v1", alNewV1Category);
+							mNewCategories.put("v4", alNewV4Category);
+						}
+					}
+
+					if (fUpdate)
+					{
+						System.out.println("categoryId===> " + contentId + " categories " + categories + " --> " + gson.toJson(mNewCategories));
+					}
+					//correct display_type
+					if (fUpdate)
+					{
+						String title = (String)mContent.get("title");
+						int displayType = determineDisplayType(title, content, alBodyImages, alBodyImages);
+						HashMap mData = new HashMap();
+						mData.put("content_id", String.valueOf(contentId));
+						//mData.put("body_images", gson.toJson(alBodyImages));
+						//mData.put("body_images_count", alBodyImages.size());
+						//mData.put("language", language);
+						//mData.put("display_type", displayType);
+						mData.put("categories", gson.toJson(mNewCategories));
+						mData.put("update_time", update_time);
+						mData.put("cp_flag", new StringBuffer("null"));
+						ContentFacade.getInstance().updateData(mData);
+					}
+					*/
+				}
+				catch (Exception e)
+				{
+					log.error("[correctTurnData failed! content_id=" + contentId + "]", e);
+				}
+				nextStartNewsId = contentId;
+			}
+			startNewsId = nextStartNewsId;
+		}
+	}
+	public static void main(String[] args)
+	{
+		try
+		{
+			DataCorrector task = new DataCorrector();
+			task.correctTurnData(Integer.parseInt(args[0]));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

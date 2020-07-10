@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.ImageUrlFilterMapper">
+	<sql id="columns">
+		id, `type`, `status`, update_time, operator, image_id
+	</sql>
+	
+	<resultMap type="ImageUrlFilter" id="ImageUrlFilterMap">
+		<id property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="status" column="status" />
+		<result property="updateTime" column="update_time" />
+		<result property="operator" column="operator" />
+		<result property="imageId" column="image_id" />
+	</resultMap>
+
+	<select id="select" resultMap="ImageUrlFilterMap">
+		SELECT
+		<include refid="columns" />
+		FROM t_image_url_filter WHERE `status` = 1
+	</select>
+</mapper>

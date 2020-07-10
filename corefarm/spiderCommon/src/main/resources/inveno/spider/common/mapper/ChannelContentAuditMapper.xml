@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.ChannelContentAuditMapper">
+	<sql id="columns">
+		title,intro,content,release_time,original_time,state,
+		type_code,rss_id,source,city_id,original_url,
+		show_source,is_have_img,cut_img_url,img_url,
+		is_widget_show,is_major,tags,locations,score,img_count,filtered,is_open_comment,datatype,info_type,category_name,second
+	</sql>
+
+	<insert id="insert" parameterType="ChannelContentAudit" 
+		flushCache="true" statementType="PREPARED" timeout="20000">
+		INSERT INTO s_channel_content_audit(
+		<include refid="columns"/>
+		)
+		VALUES (#{title},#{intro},#{content},#{releaseTime},#{originalTime},#{state},
+		        #{typeCode},#{rssId},#{source},#{cityId},#{originalUrl},
+		        #{showSource},#{isHaveImg},#{cutImgUrl},#{imgUrl},
+		        #{isWidgetShow}, #{major},#{tags},#{locations},#{score},
+		        #{imgCount},#{filtered},#{isOpenComment},#{datatype},#{infoType},#{categoryName},#{second});
+	</insert>
+
+	<update id="update" parameterType="ChannelContentAudit" >
+		update s_channel_content_audit
+		<set>
+			update_time = now(),
+			<if test="title != null" >
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null" >
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null" >
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="imgUrl != null" >
+				img_url = #{imgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgCount != null" >
+				img_count = #{imgCount,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryName != null" >
+				category_name = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="rssId != null" >
+				rss_id = #{rssId,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="queryByUrl" resultType="ChannelContentAudit" parameterType="string">
+		select
+		<include refid="columns" />
+			from s_channel_content_audit where original_url <![CDATA[ = ]]> binary#{url} order by create_time limit 1
+	</select>
+	
+	<select id="selectRecent" resultType="ChannelContentAudit" parameterType="map">
+		select id,title,content
+		from s_channel_content_audit
+		where release_time between #{startTime} and #{endTime}
+		order by id
+		limit #{postion},#{size};
+	</select>
+</mapper>

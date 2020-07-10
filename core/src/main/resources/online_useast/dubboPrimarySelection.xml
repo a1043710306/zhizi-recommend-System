@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd  
+    http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx.xsd  
+    http://www.springframework.org/schema/jdbc  
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd  
+    http://www.springframework.org/schema/cache  
+    http://www.springframework.org/schema/cache/spring-cache.xsd  
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd  
+    http://www.springframework.org/schema/util  
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+    http://code.alibabatech.com/schema/dubbo 
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    
+	<dubbo:application name="zhiziCore-zhiziGMP" owner="inveno.zhiziCore-pri"  />
+	<dubbo:registry address="${dubbo.consumer.primarySelection}" client="curator" id="PS" port="${dubbo.consumer.primarySelection.port}" />
+
+	<!-- <dubbo:registry address="zookeeper://192.168.9.53:2181?proxy=dubbo" client="curator" /> -->
+	<!-- <dubbo:registry address="zookeeper://192.168.1.16:2181?proxy=dubbo" client="curator"/> -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234?proxy=thrift2"/> -->
+
+	<dubbo:reference id="dubboPrimarySelection" interface="com.inveno.thrift.PrimarySelectionInterface" retries="1" 
+	loadbalance="leastactive" registry="PS" version="1.4.3" />
+	
+	<!-- <dubbo:reference interface="com.sodao.dubbo.t6.HelloService2$Iface"  id="helloService2" > </dubbo:reference> -->
+<!-- 	<dubbo:monitor protocol="registry" />
+ -->
+
+</beans>

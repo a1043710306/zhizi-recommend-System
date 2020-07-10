@@ -1,0 +1,166 @@
+﻿Version 0.2.1
+	1. Fixed to support query t_source_feeds_firmapp_mapping by source_feeds_id
+
+Version 0.2.0
+	1. Fixed to support query t_source_feeds by source_feeds_url
+
+Version 0.1.9
+	1. Fixed to add definition of t_source_feeds.exempt_review w/ FILTER_CHECK_AUDIT.
+	2. Fixed to add definition of t_content.state w/ OFFSHELF_CODE_TO_BE_OFFLINE, OFFSHELF_CODE_TO_BE_CHECKING, and OFFSHELF_CODE_FEED_NOT_FOUND.
+
+Version 0.1.8
+	1. Fixed to add field display_thumbnails for t_content.
+	2. Fixed to add attributes in upload images.
+
+Version 0.1.7
+	1. Fixed to add feature to select editor log for specified content.
+
+Version 0.1.6
+	1. Fixed to support download images for https protocol.
+
+Version 0.1.5
+	1. Fixed to refine fallImage determination.
+
+Version 0.1.4
+	1. Fixed to support save sourceComment.
+	2. Fixed to add constant fields for copyright.
+	3. Fixed to load publisher rate from database.
+
+Version 0.1.3
+	1. Fixed to apply active version in querying from t_source_feeds_firmapp_mapping.
+
+Version 0.1.2
+	1. Fixed to add second for s_channel_content/s_channel_content_audit to save duration of video.
+
+Version 0.0.41
+	1. Fixed to add link_md5 to be unique constraint according to field link.
+
+Version 0.0.40
+	1. Fixed to apply contentType by querying from t_source_feeds.
+	2. Fixed to sync value of field type & contentType in Content.
+
+Version 0.0.39
+	1. Fixed to use LinkedHashMap to keep result order in downloadResourceLink.
+
+Version 0.0.38
+	1. Fixed to support publisher, content_type lookup from source feeds.
+
+Version 0.0.37
+	1. Fixed to add field content_type to be compatible w/ interface between server and app-client
+
+Version 0.0.36
+	1. Fixed to add method in ImageCloudHelper for get content length.
+
+Version 0.0.35
+	1. Fixed to support category lookup from source feeds.
+
+Version 0.0.34
+	1. Fixed to define constants for content type in Content.
+	2. Fixed to add field `duration` in Content.
+
+Version 0.0.33
+	1. Fixed to add query publisher filter words.
+	2. Fixed to add define constant in Content/ChannelContent.
+
+Version 0.0.32
+	1. Fixed to accept field rate, crawlerType for Content
+
+Version 0.0.31
+	1. Fixed to download image link by httpclient 4.x
+
+Version 0.0.30
+	1. Fixed to extends features in ImageCloudHelper
+
+Version 0.0.29
+	1. Fixed to correct to select unique source feeds.
+	2. Fixed to add face detection feature.
+	3. Fixed to support querying firm app mapping.
+
+Version 0.0.28
+	1. Fixed to refine offshelf_code and state in class Content.
+
+Version 0.0.27
+	1. Fixed to update offshelf_code/offshelf_reason.
+	2. Fixed to define static member for offshelf_code in class Content
+
+Version 0.0.26
+	1. Fixed to add class ImageCloudHelper
+
+Version 0.0.25
+	1. Change resolution criteria for display_type w/ 0x400
+
+Version 0.0.16_20160526
+Changes:
+	1. 新增竞品词
+
+Version 0.0.16_20160429
+Changes:
+	1. 新增敏感词过滤的基础类Source和SensitiveWord
+
+Version 0.0.16_20160420
+Changes:
+	1. 新增资讯从老表转到新表的转换方式，还新增一个db源。
+
+Version 0.0.16_20160407
+Changes:
+	1. Add CrawerLogDao related class to support performing crawler fetch statistic in cleaner.
+
+Version 0.0.15_20150114
+Changes:
+	1.添加资讯类型，以确保前端能正常展示视频。
+
+Version 0.0.14_20150112
+Changes:
+	1.为源和资讯添加是否打开评论标识。
+
+Version 0.0.13_20141230
+Changes:
+	1.为源添加所属地域标签，该源所属资讯默认打上此地域标签。
+
+Version 0.0.12_20141218
+Changes:
+	1.为源添加标签字符，所有资讯默认打上此标签。
+
+Version 0.0.11_20141125
+Changes:
+	1.添加图片数量、是否被过滤字段。
+
+Version 0.0.10_20141110
+Changes:
+	1.添加源等级以支持资讯评分。
+
+Version 0.0.9_20140828
+Changes:
+	1.添加地域对象。
+
+Version 0.0.8_20140819
+Changes:
+	1.对象传输先转换成Json格式,然后再压入RMQ服务器队列。
+
+Version 0.0.7_20140807
+Changes:
+	1.为配置文件添加修改功能。
+
+Version 0.0.6_20140804
+Changes:
+	1.添加rmq&redis通用模块的close方法以释放资源。
+
+Version 0.0.5_20140717
+Changes:
+	1.在上传配置时，如果Profile name已存在，提示用户。
+
+Version 0.0.4_20140714
+Changes:
+	1.保存配置用户相关信息。
+
+Version 0.0.3_20140709
+Changes:
+	1.为种子添加一个可以查找的功能，方便勾选种子。
+
+Version 0.0.2_20140630
+Bugs：
+	1.修复JedisConnectionException错误。
+
+Version 0.0.1_20140619
+公共模块：
+	所有需要多次使用的实体对象及工具类。

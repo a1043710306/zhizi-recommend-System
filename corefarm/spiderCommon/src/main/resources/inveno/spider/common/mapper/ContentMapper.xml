@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.ContentMapper" >
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.Content" >
+		<id column="content_id" property="contentId" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="content_type" property="contentType" jdbcType="INTEGER" />
+		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
+		<result column="source_type" property="sourceType" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="source_feeds" property="sourceFeeds" jdbcType="LONGVARCHAR" />
+		<result column="channel" property="channel" jdbcType="VARCHAR" />
+		<result column="source_feeds_url" property="sourceFeedsUrl" jdbcType="LONGVARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="language" property="language" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="fetch_time" property="fetchTime" jdbcType="TIMESTAMP" />
+		<result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+		<result column="discovery_time" property="discoveryTime" jdbcType="TIMESTAMP" />
+		<result column="source_item_id" property="sourceItemId" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="copyright" property="copyright" jdbcType="VARCHAR" />
+		<result column="has_copyright" property="hasCopyright" jdbcType="INTEGER" />
+		<result column="body_images_count" property="bodyImagesCount" jdbcType="INTEGER" />
+		<result column="list_images_count" property="listImagesCount" jdbcType="INTEGER" />
+		<result column="publisher_pagerank_score" property="publisherPagerankScore" jdbcType="DOUBLE" />
+		<result column="source_impression_count" property="sourceImpressionCount" jdbcType="INTEGER" />
+		<result column="source_like_count" property="sourceLikeCount" jdbcType="INTEGER" />
+		<result column="source_comment_count" property="sourceCommentCount" jdbcType="INTEGER" />
+		<result column="is_open_comment" property="isOpenComment" jdbcType="INTEGER" />
+		<result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+		<result column="share_count" property="shareCount" jdbcType="INTEGER" />
+		<result column="thumbup_count" property="thumbupCount" jdbcType="INTEGER" />
+		<result column="thumbdown_count" property="thumbdownCount" jdbcType="INTEGER" />
+		<result column="cp_version" property="cpVersion" jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR" />
+		<result column="link" property="link" jdbcType="LONGVARCHAR" />
+		<result column="title" property="title" jdbcType="LONGVARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="summary" property="summary" jdbcType="LONGVARCHAR" />
+		<result column="body_images" property="bodyImages" jdbcType="LONGVARCHAR" />
+		<result column="list_images" property="listImages" jdbcType="LONGVARCHAR" />
+		<result column="fall_image" property="fallImage" jdbcType="LONGVARCHAR" />
+		<result column="display_list_images" property="displayListImages" jdbcType="LONGVARCHAR" />
+		<result column="display_thumbnails" property="displayThumbnails" jdbcType="LONGVARCHAR" />
+		<result column="firm_app" property="firmApp" jdbcType="LONGVARCHAR" />
+		<result column="item_uuid" property="itemUuid" jdbcType="LONGVARCHAR" />
+		<result column="categories" property="categories" jdbcType="LONGVARCHAR" />
+		<result column="content_segments" property="contentSegments" jdbcType="LONGVARCHAR" />
+		<result column="local" property="local" jdbcType="LONGVARCHAR" />
+		<result column="link_type" property="linkType" jdbcType="INTEGER" />
+		<result column="display_type" property="displayType" jdbcType="INTEGER" />
+		<result column="rate" property="rate" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="offshelfCode" property="offshelf_code" jdbcType="INTEGER" />
+		<result column="offshelfReason" property="offshelf_reason" jdbcType="VARCHAR" />
+		<result column="flag" property="flag" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		content_id, type, content_type, publisher, source_type, source, author, language, country, fetch_time,
+		publish_time, discovery_time, source_item_id, duration, copyright, has_copyright, body_images_count,
+		list_images_count, publisher_pagerank_score, source_impression_count, source_like_count, source_comment_count, is_open_comment,
+		comment_count, share_count, thumbup_count, thumbdown_count, cp_version,
+		source_feeds, keywords, link, title, content, summary, body_images, list_images,
+		fall_image, display_list_images, display_thumbnails, firm_app, item_uuid, categories, content_segments, channel
+		local,link_type, display_type, rate, state, offshelf_code, offshelf_reason,flag,source_feeds_url
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.Content" >
+		insert into t_content (content_id, type, content_type, publisher,
+			source_type, source, author,
+			language, country, fetch_time,
+			publish_time, discovery_time, source_item_id, duration,
+			copyright, has_copyright, body_images_count,
+			list_images_count, publisher_pagerank_score,
+			source_impression_count, source_like_count,
+			source_comment_count, is_open_comment, comment_count,
+			share_count, thumbup_count, thumbdown_count,
+			cp_version, source_feeds, keywords,
+			link, link_md5, title, content,
+			source_feeds_url, source_feeds_url_md5,
+			summary, body_images, list_images,
+			fall_image, display_list_images, display_thumbnails, firm_app,
+			item_uuid, categories, content_segments,
+			local,channel,link_type, display_type, rate, state, offshelf_code, offshelf_reason, crawler_type, flag)
+		values (#{contentId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{contentType,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR},
+			#{sourceType,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+			#{language,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{fetchTime,jdbcType=TIMESTAMP},
+			#{publishTime,jdbcType=TIMESTAMP}, #{discoveryTime,jdbcType=TIMESTAMP}, #{sourceItemId,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER},
+			#{copyright,jdbcType=VARCHAR}, #{hasCopyright,jdbcType=INTEGER}, #{bodyImagesCount,jdbcType=INTEGER},
+			#{listImagesCount,jdbcType=INTEGER}, #{publisherPagerankScore,jdbcType=DOUBLE},
+			#{sourceImpressionCount,jdbcType=INTEGER}, #{sourceLikeCount,jdbcType=INTEGER},
+			#{sourceCommentCount,jdbcType=INTEGER}, #{isOpenComment,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER},
+			#{shareCount,jdbcType=INTEGER}, #{thumbupCount,jdbcType=INTEGER}, #{thumbdownCount,jdbcType=INTEGER},
+			#{cpVersion,jdbcType=VARCHAR}, #{sourceFeeds,jdbcType=LONGVARCHAR}, #{keywords,jdbcType=LONGVARCHAR},
+			#{link,jdbcType=LONGVARCHAR}, md5(#{link,jdbcType=VARCHAR}), #{title,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR},
+			#{sourceFeedsUrl,jdbcType=LONGVARCHAR}, md5(#{sourceFeedsUrl,jdbcType=LONGVARCHAR}),
+			#{summary,jdbcType=LONGVARCHAR}, #{bodyImages,jdbcType=LONGVARCHAR}, #{listImages,jdbcType=LONGVARCHAR},
+			#{fallImage,jdbcType=LONGVARCHAR}, #{displayListImages,jdbcType=LONGVARCHAR}, #{displayThumbnails,jdbcType=LONGVARCHAR}, #{firmApp,jdbcType=LONGVARCHAR},
+			#{itemUuid,jdbcType=LONGVARCHAR}, #{categories,jdbcType=LONGVARCHAR}, #{contentSegments,jdbcType=LONGVARCHAR},
+			#{local,jdbcType=LONGVARCHAR},#{channel,jdbcType=VARCHAR},#{linkType,jdbcType=INTEGER}, #{displayType,jdbcType=INTEGER}, 
+			#{rate,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{offshelfCode,jdbcType=INTEGER}, #{offshelfReason,jdbcType=VARCHAR}, 
+			#{crawlerType,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insert2CurrentMonth" parameterType="inveno.spider.common.model.Content" >
+		insert into #{currentMonthTableName,jdbcType=VARCHAR} (content_id, type, content_type, publisher,
+			source_type, source, author,
+			language, country, fetch_time,
+			publish_time, discovery_time, source_item_id, duration,
+			copyright, has_copyright, body_images_count,
+			list_images_count, publisher_pagerank_score,
+			source_impression_count, source_like_count,
+			source_comment_count, is_open_comment, comment_count,
+			share_count, thumbup_count, thumbdown_count,
+			cp_version, source_feeds, keywords,
+			link, link_md5, title, content,
+			source_feeds_url, source_feeds_url_md5,
+			summary, body_images, list_images,
+			fall_image, display_list_images, display_thumbnails, firm_app,
+			item_uuid, categories, content_segments,
+			local,channel,link_type, display_type, rate, state, offshelf_code, offshelf_reason, crawler_type, flag)
+		values (#{contentId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{contentType,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR},
+			#{sourceType,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+			#{language,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{fetchTime,jdbcType=TIMESTAMP},
+			#{publishTime,jdbcType=TIMESTAMP}, #{discoveryTime,jdbcType=TIMESTAMP}, #{sourceItemId,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER},
+			#{copyright,jdbcType=VARCHAR}, #{hasCopyright,jdbcType=INTEGER}, #{bodyImagesCount,jdbcType=INTEGER},
+			#{listImagesCount,jdbcType=INTEGER}, #{publisherPagerankScore,jdbcType=DOUBLE},
+			#{sourceImpressionCount,jdbcType=INTEGER}, #{sourceLikeCount,jdbcType=INTEGER},
+			#{sourceCommentCount,jdbcType=INTEGER}, #{isOpenComment,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER},
+			#{shareCount,jdbcType=INTEGER}, #{thumbupCount,jdbcType=INTEGER}, #{thumbdownCount,jdbcType=INTEGER},
+			#{cpVersion,jdbcType=VARCHAR}, #{sourceFeeds,jdbcType=LONGVARCHAR}, #{keywords,jdbcType=LONGVARCHAR},
+			#{link,jdbcType=LONGVARCHAR}, md5(#{link,jdbcType=VARCHAR}), #{title,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR},
+			#{sourceFeedsUrl,jdbcType=LONGVARCHAR}, md5(#{sourceFeedsUrl,jdbcType=LONGVARCHAR}),
+			#{summary,jdbcType=LONGVARCHAR}, #{bodyImages,jdbcType=LONGVARCHAR}, #{listImages,jdbcType=LONGVARCHAR},
+			#{fallImage,jdbcType=LONGVARCHAR}, #{displayListImages,jdbcType=LONGVARCHAR}, #{displayThumbnails,jdbcType=LONGVARCHAR}, #{firmApp,jdbcType=LONGVARCHAR},
+			#{itemUuid,jdbcType=LONGVARCHAR}, #{categories,jdbcType=LONGVARCHAR}, #{contentSegments,jdbcType=LONGVARCHAR},
+			#{local,jdbcType=LONGVARCHAR},#{channel,jdbcType=VARCHAR},#{linkType,jdbcType=INTEGER}, #{displayType,jdbcType=INTEGER}, 
+			#{rate,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{offshelfCode,jdbcType=INTEGER}, #{offshelfReason,jdbcType=VARCHAR}, 
+			#{crawlerType,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="selectListById" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="string">
+		select <include refid="Base_Column_List" />
+		from t_content where content_id <![CDATA[ > ]]> #{contentId} order by update_time desc limit 1
+	</select>
+
+	<select id="selectByPrimaryKey" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="string">
+		select <include refid="Base_Column_List" />
+		from t_content where content_id <![CDATA[ = ]]> #{contentId}
+	</select>
+
+	<select id="selectListByLink" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="string">
+		select <include refid="Base_Column_List" />
+		from t_content where link <![CDATA[ = ]]> binary#{link} order by update_time desc limit 1
+	</select>
+	
+	<select id="selectByLinkOrExtraLink" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="map">
+		select <include refid="Base_Column_List" />
+		from t_content 
+		where 
+		link <![CDATA[ = ]]> binary #{link, jdbcType=VARCHAR} 
+		or 
+		link <![CDATA[ = ]]> binary #{extraLink, jdbcType=VARCHAR} 
+		order by update_time desc 
+		limit 1
+	</select>
+
+	<select id="selectEditorLog" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="string">
+		select content_id, operate_time as update_time
+		from t_content_edit_log where content_id <![CDATA[ = ]]> #{contentId}
+	</select>
+	
+	<select id="selectLastest2MonthContentByLink" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="map">
+		select c.*
+		from #{currentTableName, jdbcType=VARCHAR} c
+		where 
+		c.link <![CDATA[ = ]]> binary #{link, jdbcType=VARCHAR} 
+		UNION
+		select b.*
+		from #{beforeTableName, jdbcType=VARCHAR} b
+		where 
+		b.link <![CDATA[ = ]]> binary #{link, jdbcType=VARCHAR} 
+		limit 1
+	</select>
+	
+	<select id="selectLastest2MonthContentByLinkOrExtraLink" resultType="inveno.spider.common.model.Content" resultMap="BaseResultMap" parameterType="map">
+		select c.*
+		from #{currentTableName, jdbcType=VARCHAR} c
+		where 
+		c.link <![CDATA[ = ]]> binary #{link, jdbcType=VARCHAR} 
+		or 
+		c.link <![CDATA[ = ]]> binary #{extraLink, jdbcType=VARCHAR} 
+		UNION
+		select b.*
+		from #{beforeTableName, jdbcType=VARCHAR} b
+		where 
+		b.link <![CDATA[ = ]]> binary #{link, jdbcType=VARCHAR} 
+		or 
+		b.link <![CDATA[ = ]]> binary #{extraLink, jdbcType=VARCHAR} 
+		limit 1
+	</select>
+
+	<insert id="insertSelective" parameterType="inveno.spider.common.model.Content" >
+		insert into t_content
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="contentId != null" >
+				content_id,
+			</if>
+			<if test="type != null" >
+				type,
+			</if>
+			<if test="contentType != null" >
+				content_type,
+			</if>
+			<if test="publisher != null" >
+				publisher,
+			</if>
+			<if test="sourceType != null" >
+				source_type,
+			</if>
+			<if test="source != null" >
+				source,
+			</if>
+			<if test="author != null" >
+				author,
+			</if>
+			<if test="language != null" >
+				language,
+			</if>
+			<if test="country != null" >
+				country,
+			</if>
+			<if test="fetchTime != null" >
+				fetch_time,
+			</if>
+			<if test="publishTime != null" >
+				publish_time,
+			</if>
+			<if test="sourceItemId != null" >
+				source_item_id,
+			</if>
+			<if test="duration != null" >
+				duration,
+			</if>
+			<if test="copyright != null" >
+				copyright,
+			</if>
+			<if test="hasCopyright != null" >
+				has_copyright,
+			</if>
+			<if test="bodyImagesCount != null" >
+				body_images_count,
+			</if>
+			<if test="listImagesCount != null" >
+				list_images_count,
+			</if>
+			<if test="publisherPagerankScore != null" >
+				publisher_pagerank_score,
+			</if>
+			<if test="sourceImpressionCount != null" >
+				source_impression_count,
+			</if>
+			<if test="sourceLikeCount != null" >
+				source_like_count,
+			</if>
+			<if test="sourceCommentCount != null" >
+				source_comment_count,
+			</if>
+			<if test="isOpenComment != null" >
+				is_open_comment,
+			</if>
+			<if test="commentCount != null" >
+				comment_count,
+			</if>
+			<if test="shareCount != null" >
+				share_count,
+			</if>
+			<if test="thumbupCount != null" >
+				thumbup_count,
+			</if>
+			<if test="thumbdownCount != null" >
+				thumbdown_count,
+			</if>
+			<if test="cpVersion != null" >
+				cp_version,
+			</if>
+			<if test="sourceFeeds != null" >
+				source_feeds,
+			</if>
+			<if test="keywords != null" >
+				keywords,
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				source_feeds_url,
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				source_feeds_url_md5,
+			</if>
+			<if test="link != null" >
+				link,
+			</if>
+			<if test="link != null" >
+				link_md5,
+			</if>
+			<if test="title != null" >
+				title,
+			</if>
+			<if test="content != null" >
+				content,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="bodyImages != null" >
+				body_images,
+			</if>
+			<if test="listImages != null" >
+				list_images,
+			</if>
+			<if test="fallImage != null" >
+				fall_image,
+			</if>
+			<if test="displayListImages != null" >
+				display_list_images,
+			</if>
+			<if test="displayThumbnails != null" >
+				display_thumbnails,
+			</if>
+			<if test="firmApp != null" >
+				firm_app,
+			</if>
+			<if test="itemUuid != null" >
+				item_uuid,
+			</if>
+			<if test="categories != null" >
+				categories,
+			</if>
+			<if test="contentSegments != null" >
+				content_segments,
+			</if>
+			<if test="linkType != null" >
+				link_type,
+			</if>
+			<if test="displayType != null" >
+				display_type,
+			</if>
+			<if test="rate != null" >
+				rate,
+			</if>
+			<if test="crawlerType != null" >
+				crawler_type,
+			</if>
+			<if test="local != null" >
+				local,
+			</if>
+			<if test="flag != null" >
+				flag
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="contentId != null" >
+				#{contentId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="contentType != null" >
+				#{contentType,jdbcType=INTEGER},
+			</if>
+			<if test="publisher != null" >
+				#{publisher,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceType != null" >
+				#{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null" >
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null" >
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="language != null" >
+				#{language,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null" >
+				#{country,jdbcType=VARCHAR},
+			</if>
+			<if test="fetchTime != null" >
+				#{fetchTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishTime != null" >
+				#{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="discoveryTime != null" >
+				#{discoveryTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sourceItemId != null" >
+				#{sourceItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="copyright != null" >
+				#{copyright,jdbcType=VARCHAR},
+			</if>
+			<if test="hasCopyright != null" >
+				#{hasCopyright,jdbcType=INTEGER},
+			</if>
+			<if test="bodyImagesCount != null" >
+				#{bodyImagesCount,jdbcType=INTEGER},
+			</if>
+			<if test="listImagesCount != null" >
+				#{listImagesCount,jdbcType=INTEGER},
+			</if>
+			<if test="publisherPagerankScore != null" >
+				#{publisherPagerankScore,jdbcType=DOUBLE},
+			</if>
+			<if test="sourceImpressionCount != null" >
+				#{sourceImpressionCount,jdbcType=INTEGER},
+			</if>
+			<if test="sourceLikeCount != null" >
+				#{sourceLikeCount,jdbcType=INTEGER},
+			</if>
+			<if test="sourceCommentCount != null" >
+				#{sourceCommentCount,jdbcType=INTEGER},
+			</if>
+			<if test="isOpenComment != null" >
+				#{isOpenComment,jdbcType=INTEGER},
+			</if>
+			<if test="commentCount != null" >
+				#{commentCount,jdbcType=INTEGER},
+			</if>
+			<if test="shareCount != null" >
+				#{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbupCount != null" >
+				#{thumbupCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbdownCount != null" >
+				#{thumbdownCount,jdbcType=INTEGER},
+			</if>
+			<if test="cpVersion != null" >
+				#{cpVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceFeeds != null" >
+				#{sourceFeeds,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="keywords != null" >
+				#{keywords,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				#{sourceFeedsUrl,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				md5(#{sourceFeedsUrl,jdbcType=LONGVARCHAR}),
+			</if>
+			<if test="link != null" >
+				#{link,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="link != null" >
+				md5(#{link,jdbcType=VARCHAR}),
+			</if>
+			<if test="title != null" >
+				#{title,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="content != null" >
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="bodyImages != null" >
+				#{bodyImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="listImages != null" >
+				#{listImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fallImage != null" >
+				#{fallImage,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="displayListImages != null" >
+				#{displayListImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="firmApp != null" >
+				#{firmApp,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="itemUuid != null" >
+				#{itemUuid,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="categories != null" >
+				#{categories,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="contentSegments != null" >
+				#{contentSegments,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="linkType != null" >
+				#{linkType,jdbcType=INTEGER},
+			</if>
+			<if test="displayType != null" >
+				#{displayType,jdbcType=INTEGER},
+			</if>
+			<if test="rate != null" >
+				#{rate,jdbcType=INTEGER},
+			</if>
+			<if test="crawlerType != null" >
+				#{crawlerType,jdbcType=INTEGER},
+			</if>
+			<if test="local != null" >
+				#{local,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="flag != null" >
+				#{flag,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="inveno.spider.common.model.Content" >
+		update t_content
+		<set>
+			cp_flag = null,
+			update_time = now(),
+			<if test="type != null" >
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="contentType != null" >
+				content_type = #{contentType,jdbcType=INTEGER},
+			</if>
+			<if test="publisher != null" >
+				publisher = #{publisher,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceType != null" >
+				source_type = #{sourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null" >
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="channel != null" >
+				channel = #{channel,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null" >
+				author = #{author,jdbcType=VARCHAR},
+			</if>
+			<if test="language != null" >
+				language = #{language,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null" >
+				country = #{country,jdbcType=VARCHAR},
+			</if>
+			<if test="fetchTime != null" >
+				fetch_time = #{fetchTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishTime != null" >
+				publish_time = #{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sourceItemId != null" >
+				source_item_id = #{sourceItemId,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null" >
+				duration = #{duration,jdbcType=INTEGER},
+			</if>
+			<if test="copyright != null" >
+				copyright = #{copyright,jdbcType=VARCHAR},
+			</if>
+			<if test="hasCopyright != null" >
+				has_copyright = #{hasCopyright,jdbcType=INTEGER},
+			</if>
+			<if test="bodyImagesCount != null" >
+				body_images_count = #{bodyImagesCount,jdbcType=INTEGER},
+			</if>
+			<if test="listImagesCount != null" >
+				list_images_count = #{listImagesCount,jdbcType=INTEGER},
+			</if>
+			<if test="publisherPagerankScore != null" >
+				publisher_pagerank_score = #{publisherPagerankScore,jdbcType=DOUBLE},
+			</if>
+			<if test="sourceImpressionCount != null" >
+				source_impression_count = #{sourceImpressionCount,jdbcType=INTEGER},
+			</if>
+			<if test="sourceLikeCount != null" >
+				source_like_count = #{sourceLikeCount,jdbcType=INTEGER},
+			</if>
+			<if test="sourceCommentCount != null" >
+				source_comment_count = #{sourceCommentCount,jdbcType=INTEGER},
+			</if>
+			<if test="isOpenComment != null" >
+				is_open_comment = #{isOpenComment,jdbcType=INTEGER},
+			</if>
+			<if test="commentCount != null" >
+				comment_count = #{commentCount,jdbcType=INTEGER},
+			</if>
+			<if test="shareCount != null" >
+				share_count = #{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbupCount != null" >
+				thumbup_count = #{thumbupCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbdownCount != null" >
+				thumbdown_count = #{thumbdownCount,jdbcType=INTEGER},
+			</if>
+			<if test="cpVersion != null" >
+				cp_version = #{cpVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="sourceFeeds != null" >
+				source_feeds = #{sourceFeeds,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="keywords != null" >
+				keywords = #{keywords,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				source_feeds_url = #{sourceFeedsUrl,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="sourceFeedsUrl != null" >
+				source_feeds_url_md5 = md5(#{sourceFeedsUrl,jdbcType=LONGVARCHAR}),
+			</if>
+			<if test="link != null" >
+				link = #{link,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="link != null" >
+				link_md5 = md5(#{link,jdbcType=VARCHAR}),
+			</if>
+			<if test="title != null" >
+				title = #{title,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="content != null" >
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="bodyImages != null" >
+				body_images = #{bodyImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="listImages != null" >
+				list_images = #{listImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fallImage != null" >
+				fall_image = #{fallImage,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="displayListImages != null" >
+				display_list_images = #{displayListImages,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="displayThumbnails != null" >
+				display_thumbnails = #{displayThumbnails,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="firmApp != null" >
+				firm_app = #{firmApp,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="itemUuid != null" >
+				item_uuid = #{itemUuid,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="categories != null" >
+				categories = #{categories,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="contentSegments != null" >
+				content_segments = #{contentSegments,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="linkType != null" >
+				link_type = #{linkType,jdbcType=INTEGER},
+			</if>
+			<if test="displayType != null" >
+				display_type = #{displayType,jdbcType=INTEGER},
+			</if>
+			<if test="rate != null" >
+				rate = #{rate,jdbcType=INTEGER},
+			</if>
+			<if test="state != null" >
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="offshelfCode != null" >
+				offshelf_code = #{offshelfCode,jdbcType=INTEGER},
+			</if>
+			<if test="offshelfReason != null" >
+				offshelf_reason = #{offshelfReason,jdbcType=VARCHAR},
+			</if>
+			<if test="local != null" >
+				local = #{local,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="flag != null" >
+				flag = #{flag,jdbcType=VARCHAR}
+			</if>
+		</set>
+
+		where content_id = #{contentId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updatePublisherByPrimaryKeySelective" parameterType="map" >
+		update t_content set publisher = #{publisher,jdbcType=VARCHAR} where content_id = #{contentId,jdbcType=VARCHAR}
+	</update>
+</mapper>

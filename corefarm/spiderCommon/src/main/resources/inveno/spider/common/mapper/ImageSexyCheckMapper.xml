@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.ImageSexyCheckMapper" >
+
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.ImgSexyResult" >
+		<id property="id" column="id" jdbcType="INTEGER" />
+		<result column="content_id" property="contentId" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="INTEGER" />
+		<result column="img" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="label" property="label" jdbcType="INTEGER" />
+		<result column="rate" property="rate" jdbcType="FLOAT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+		id,content_id, code, img, label, rate, create_time
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.ImgSexyResult" >
+		insert into ${tableName} (content_id, code, img, label, rate, create_time)
+		values (#{contentId,jdbcType=VARCHAR}, #{code,jdbcType=INTEGER}, #{imgUrl,jdbcType=VARCHAR}, #{label,jdbcType=INTEGER}, #{rate,jdbcType=FLOAT}, now())
+	</insert>
+
+	<select id="selectLastest2MonthByContentIdAndImgUrl" resultType="inveno.spider.common.model.ImgSexyResult" resultMap="BaseResultMap" parameterType="map">
+		select c.*
+		from ${currentTableName} c
+		where c.content_id = #{contentId} and c.img = #{imgUrl}
+		UNION
+		select b.*
+		from ${beforeTableName} b
+		where b.content_id = #{contentId} and b.img = #{imgUrl}
+		limit 1
+	</select>
+
+</mapper>

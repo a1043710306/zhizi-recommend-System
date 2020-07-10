@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.ProfileViewMapper">
+	<sql id="columns">
+		id, profile_name, pub_code, type, description, create_time,
+		create_user, update_time, update_user
+	</sql>
+	<resultMap type="ProfileView" id="profileViewMap">
+		<id property="id" column="id"/>
+		<result property="profileName" column="profile_name"/>
+		<result property="pubCode" column="pub_code"/>
+		<result property="type" column="type"/>
+		<result property="description" column="description"/>
+		<result property="createTime" column="create_time"/>
+		<result property="createUser" column="create_user"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="updateUser" column="update_user"/>
+		<result property="cronExpression" column="cron_expression"/>
+	</resultMap>
+
+	<insert id="insert" parameterType="ProfileView" >
+		<selectKey resultType="int" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>	
+		INSERT INTO tbl_profile(
+		<include refid="columns" />
+		)
+		VALUES (null,#{profileName},#{pubCode},#{type},#{description},
+		now(),#{createUser},now(),#{updateUser}
+		);
+	</insert>
+	
+	<select id="selectByKeyword" resultType="ProfileView" resultMap="profileViewMap" parameterType="map">
+		SELECT
+		<include refid="columns" />
+		,b.cron_expression FROM tbl_profile a
+		left join sys_qrtz_cron_triggers
+		b on a.profile_name=b.trigger_name
+		where 1=1 
+		<if test = "keyword!=null">
+			AND description like #{keyword}
+			OR profile_name like #{keyword}
+		</if>
+		<if test="sort!=null">ORDER BY ${sort} ${order}</if>
+		limit #{offset},#{size};		
+	</select>
+	
+	<select id="selectCount" resultType="int" parameterType="string">
+		SELECT
+		count(a.id)
+		FROM tbl_profile a
+		left join sys_qrtz_cron_triggers b on a.profile_name=b.trigger_name
+		where 1=1 
+		<if test = "_parameter!=null">
+			AND a.description like #{_parameter}
+			OR profile_name like #{_parameter}
+		</if>	
+	</select>	
+	
+	<update id="update" parameterType="ProfileView">
+		UPDATE tbl_profile SET profile_name=#{profileName},pub_code=#{pubCode},type=#{type},description=#{description},update_user=#{updateUser},update_time=#{updateTime}
+		WHERE id=#{id};
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM tbl_profile
+		WHERE id=#{id};
+	</delete>	
+</mapper>

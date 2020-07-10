@@ -1,0 +1,67 @@
+###########################################################################
+#                             jvm.options                                 #
+#                                                                         #
+# - one flag should be specified per line                                 #
+# - lines that do not start with '-' will be ignored                      #
+# - only static flags are accepted (no variables or parameters)           #
+###########################################################################
+
+
+#################
+# HEAP SETTINGS #
+#################
+
+-Xms5G
+-Xmx5G
+-Xmn1G
+-XX:MetaspaceSize=128m
+-XX:MaxMetaspaceSize=512m
+
+
+###############
+# JMX options #
+###############
+
+#-Dcom.sun.management.jmxremote.port=12306
+#-Dcom.sun.management.jmxremote.authenticate=false
+#-Dcom.sun.management.jmxremote.ssl=false
+#-Djava.rmi.server.hostname=127.0.0.1
+
+
+#################
+# Debug options #
+#################
+
+#-Xdebug
+#-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=11312
+
+
+
+##################
+#  CMS SETTINGS  #
+##################
+
+-XX:+UseParNewGC
+-XX:+UseConcMarkSweepGC
+-XX:CMSInitiatingOccupancyFraction=75
+-XX:+UseCMSInitiatingOccupancyOnly
+-XX:MaxTenuringThreshold=3
+-XX:+ExplicitGCInvokesConcurrent
+-XX:SurvivorRatio=8
+-XX:+CMSParallelRemarkEnabled
+
+
+
+########################
+#  GC logging options  #
+########################
+
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+-XX:+PrintGCApplicationStoppedTime
+-XX:+PrintHeapAtGC
+-XX:+PrintTenuringDistribution
+-XX:+PrintPromotionFailure
+-XX:+UseGCLogFileRotation
+-XX:NumberOfGCLogFiles=10
+-XX:GCLogFileSize=10M

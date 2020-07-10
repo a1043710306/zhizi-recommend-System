@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.SourceFeedFirmAppMappingMapper">
+	<sql id="columns">
+		id, source_feeds_id, source_type, source, source_feeds, channel, content_type, firm_app
+	</sql>
+
+	<resultMap type="inveno.spider.common.model.SourceFeedFirmAppMapping" id="SourceFeedFirmAppMappingMap">
+		<id property="id" column="id" />
+		<result property="sourceFeedsId"       column="source_feeds_id" />
+		<result property="sourceType"          column="source_type" />
+		<result property="source"              column="source" />
+		<result property="sourceFeeds"         column="source_feeds" />
+		<result property="channel"             column="channel" />
+		<result property="contentType"         column="content_type" />
+		<result property="firmApp"             column="firm_app" />
+	</resultMap>
+
+	<select id="select" resultType="inveno.spider.common.model.SourceFeedFirmAppMapping" resultMap="SourceFeedFirmAppMappingMap" parameterType="map">
+		SELECT
+		SFM.id as id, source_feeds_id, source_type, source, source_feeds, channel, content_type, firm_app
+		FROM t_source_feeds_firmapp_mapping SFM
+		join t_dictionary D on D.type_name='source_firm_version' and D.value=SFM.version
+		WHERE
+		source_type=#{sourceType}
+		and source=#{source}
+		and source_feeds=#{sourceFeeds}
+		and channel=#{channel}
+		limit 1;
+	</select>
+	<select id="selectBySourceFeedId" resultType="inveno.spider.common.model.SourceFeedFirmAppMapping" resultMap="SourceFeedFirmAppMappingMap" parameterType="map">
+		SELECT
+		SFM.id as id, source_feeds_id, source_type, source, source_feeds, channel, content_type, firm_app
+		FROM t_source_feeds_firmapp_mapping SFM
+		join t_dictionary D on D.type_name='source_firm_version' and D.value=SFM.version
+		WHERE
+		source_feeds_id=#{sourceFeedsId}
+		limit 1;
+	</select>
+</mapper>

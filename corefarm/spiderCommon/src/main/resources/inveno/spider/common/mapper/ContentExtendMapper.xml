@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.ContentExtendMapper">
+
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.ContentExtend">
+		<result column="content_id" property="contentId" jdbcType="VARCHAR" />
+		<result column="content_quality" property="contentQuality"
+			jdbcType="INTEGER" />
+		<result column="timeliness" property="timeliness" jdbcType="INTEGER" />
+		<result column="body_videos" property="bodyVideos" jdbcType="VARCHAR" />
+		<result column="is_display_ad" property="isDisplayAd" jdbcType="INTEGER" />
+		<result column="is_contains_social_plugin" property="isContainsSocialPlugin" jdbcType="INTEGER" />
+		<result column="topics" property="topics" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		content_id, content_quality, timeliness,
+		body_videos,categories_comic,youtube_category,
+		is_display_ad,is_contains_social_plugin, topics
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.ContentExtend">
+		insert into t_content_extend
+		(content_id, content_quality, timeliness,
+		body_videos,youtube_category,categories_comic,
+		is_display_ad,is_contains_social_plugin,topics)
+		values
+		(#{contentId,jdbcType=VARCHAR},
+		#{contentQuality,jdbcType=INTEGER},
+		#{timeliness,jdbcType=INTEGER},
+		#{bodyVideos,jdbcType=VARCHAR},
+		#{youtubeCategory,jdbcType=VARCHAR},
+		#{categoriesComic,jdbcType=LONGVARCHAR},
+		#{isDisplayAd,jdbcType=INTEGER},
+		#{isContainsSocialPlugin,jdbcType=INTEGER},
+		#{topics,jdbcType=VARCHAR})
+
+	</insert>
+
+	<select id="selectByContentId" resultMap="BaseResultMap"
+		parameterType="string">
+		select
+		<include refid="Base_Column_List" />
+		from t_content_extend where content_id <![CDATA[ = ]]>
+		#{contentId}
+	</select>
+
+	<update id="updateByContentId" parameterType="inveno.spider.common.model.ContentExtend">
+		update t_content_extend
+		<set>
+			<if test="contentQuality != null">
+				content_quality =
+				#{contentQuality,jdbcType=INTEGER},
+			</if>
+			<if test="timeliness != null">
+				timeliness =
+				#{timeliness,jdbcType=INTEGER},
+			</if>
+			<if test="bodyVideos != null">
+				body_videos =
+				#{bodyVideos,jdbcType=VARCHAR},
+			</if>
+			<if test="categoriesComic != null">
+				categories_comic =
+				#{categoriesComic,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="youtubeCategory != null">
+				youtube_category =
+				#{youtubeCategory,jdbcType=VARCHAR},
+			</if>
+			<if test="isDisplayAd != null">
+				is_display_ad =
+				#{isDisplayAd,jdbcType=INTEGER},
+			</if>
+			<if test="isContainsSocialPlugin != null">
+				is_contains_social_plugin =
+				#{isContainsSocialPlugin,jdbcType=INTEGER},
+			</if>
+			<if test="topics != null">
+				topics =
+				#{topics,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where content_id = #{contentId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

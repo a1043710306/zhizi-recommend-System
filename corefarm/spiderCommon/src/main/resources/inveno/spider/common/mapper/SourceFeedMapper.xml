@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.SourceFeedMapper">
+	<sql id="columns">
+		feed.id,
+		feed.source_type,
+		feed.source,
+		feed.source_feeds,
+		feed.source_feeds_name,
+		feed.source_feeds_url,
+		feed.source_feeds_category,
+		feed.content_type,
+		feed.channel,
+		feed.publisher,
+		feed.country,
+		feed.language,
+		feed.exempt_review,
+		feed.novelty,
+		feed.authority,
+		feed.content_quality,
+		feed.effectiveness,
+		feed.adult_score,
+		feed.advertisement_score,
+		feed.audience_scale,
+		feed.copyrighted,
+		feed.is_open_comment,
+		feed.link_type,
+		feed.spider_status,
+		feed.crawler_type,
+		extend.flag,
+		extend.timeliness
+	</sql>
+	
+	<sql id="basic_columns">
+		id,
+		source_type,
+		source,
+		source_feeds,
+		source_feeds_name,
+		source_feeds_url,
+		source_feeds_category,
+		content_type,
+		channel,
+		publisher,
+		country,
+		language,
+		exempt_review,
+		novelty,
+		authority,
+		content_quality,
+		effectiveness,
+		adult_score,
+		advertisement_score,
+		audience_scale,
+		copyrighted,
+		is_open_comment,
+		link_type,
+		spider_status,
+		crawler_type
+	</sql>
+
+	<resultMap type="inveno.spider.common.model.SourceFeed" id="SourceFeedMap">
+		<id property="id" column="id" />
+		<result property="sourceType"          column="source_type" />
+		<result property="source"              column="source" />
+		<result property="sourceFeeds"         column="source_feeds" />
+		<result property="sourceFeedsName"     column="source_feeds_name" />
+		<result property="sourceFeedsUrl"      column="source_feeds_url" />
+		<result property="sourceFeedsCategory" column="source_feeds_category" />
+		<result property="contentType"         column="content_type" />
+		<result property="channel"             column="channel" />
+		<result property="publisher"           column="publisher" />
+		<result property="country"             column="country" />
+		<result property="language"            column="language" />
+		<result property="level"               column="level" />
+		<result property="exemptReview"        column="exempt_review" />
+		<result property="novelty"             column="novelty" />
+		<result property="authority"           column="authority" />
+		<result property="contentQuality"      column="content_quality" />
+		<result property="effectiveness"       column="effectiveness" />
+		<result property="adultScore"          column="adult_score" />
+		<result property="advertisementScore"  column="advertisement_score" />
+		<result property="audienceScale"       column="audience_scale" />
+		<result property="copyrighted"         column="copyrighted" />
+		<result property="isOpenComment"       column="is_open_comment" />
+		<result property="linkType"            column="link_type" />
+		<result property="spiderStatus"        column="spider_status" />
+		<result property="flag"        		   column="flag" />
+		<result property="timeliness"          column="timeliness" />
+		<result property="crawlerType"         column="crawler_type" />
+	</resultMap>
+	
+	<resultMap type="inveno.spider.common.model.SourceFeed" id="BaseSourceFeedMap">
+		<id property="id" column="id" />
+		<result property="sourceType"          column="source_type" />
+		<result property="source"              column="source" />
+		<result property="sourceFeeds"         column="source_feeds" />
+		<result property="sourceFeedsName"     column="source_feeds_name" />
+		<result property="sourceFeedsUrl"      column="source_feeds_url" />
+		<result property="sourceFeedsCategory" column="source_feeds_category" />
+		<result property="contentType"         column="content_type" />
+		<result property="channel"             column="channel" />
+		<result property="publisher"           column="publisher" />
+		<result property="country"             column="country" />
+		<result property="language"            column="language" />
+		<result property="level"               column="level" />
+		<result property="exemptReview"        column="exempt_review" />
+		<result property="novelty"             column="novelty" />
+		<result property="authority"           column="authority" />
+		<result property="contentQuality"      column="content_quality" />
+		<result property="effectiveness"       column="effectiveness" />
+		<result property="adultScore"          column="adult_score" />
+		<result property="advertisementScore"  column="advertisement_score" />
+		<result property="audienceScale"       column="audience_scale" />
+		<result property="copyrighted"         column="copyrighted" />
+		<result property="isOpenComment"       column="is_open_comment" />
+		<result property="linkType"            column="link_type" />
+		<result property="spiderStatus"        column="spider_status" />
+		<result property="crawlerType"         column="crawler_type" />
+	</resultMap>
+	
+	<select id="select" resultType="inveno.spider.common.model.SourceFeed" resultMap="BaseSourceFeedMap" parameterType="map">
+		SELECT
+		<include refid="basic_columns" />
+		FROM 
+		t_source_feeds 
+		WHERE 
+		source_type=#{sourceType}
+		and source=#{source} 
+		<if test="source_feeds != null" >
+			and source_feeds=#{sourceFeeds}
+		</if>
+		<if test="channel != null" >
+			and channel=#{channel}
+		</if>
+		limit 1;
+	</select>
+	
+	<select id="selectByUrl" resultType="inveno.spider.common.model.SourceFeed" resultMap="BaseSourceFeedMap" parameterType="map">
+		SELECT
+		<include refid="basic_columns" />
+		FROM 
+		t_source_feeds 
+		WHERE 
+		source_type=#{sourceType} 
+		and source_feeds_url=#{sourceFeedsUrl}
+		limit 1;
+	</select>
+
+	<select id="selectSeedAndExtend" resultType="inveno.spider.common.model.SourceFeed" resultMap="SourceFeedMap" parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM 
+		t_source_feeds feed 
+		left join 
+		t_source_feeds_extend extend 
+		on 
+		feed.id=extend.source_feeds_id 
+		WHERE 
+		feed.source_type=#{sourceType}
+		and feed.source=#{source} 
+		<if test="source_feeds != null" >
+			and feed.source_feeds=#{sourceFeeds}
+		</if>
+		<if test="channel != null" >
+			and feed.channel=#{channel}
+		</if>
+		limit 1;
+	</select>
+	<select id="selectSeedAndExtendByUrl" resultType="inveno.spider.common.model.SourceFeed" resultMap="SourceFeedMap" parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM 
+		t_source_feeds feed 
+		left join 
+		t_source_feeds_extend extend 
+		on 
+		feed.id=extend.source_feeds_id 
+		WHERE 
+		feed.source_type=#{sourceType} 
+		and feed.source_feeds_url=#{sourceFeedsUrl}
+		limit 1;
+	</select>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.SeedMapper">
+	<sql id="columns">
+		id, rss_name, type_code, url, level, intro, state,
+		create_time, delete_time, catche_time, update_time, objection, source,
+		icon, is_read, market_id, api, city_id, type, auto_publish, json,
+		data_type, request_time, secret_key, category, tags, push_reco,
+		get_status, provider_id, provide_name, category_id, category_name,
+		get_type, spider_type, is_extend, datatype, info_level,profile_id,url_type,rss_tags,area_tags,is_open_comment,info_type,check_category_flag
+	</sql>
+	
+	<resultMap type="Seed" id="seedMap">
+		<id property="id" column="id" />
+		<result property="rssName" column="rss_name" />
+		<result property="typeCode" column="type_code" />
+		<result property="url" column="url" />
+		<result property="intro" column="intro" />
+		<result property="createTime" column="create_time" />
+		<result property="catcheTime" column="catche_time" />
+		<result property="category" column="category" />
+		<result property="urlType" column="url_type" />
+		<result property="level" column="info_level" />
+		<result property="rssTags" column="rss_tags" />
+		<result property="areaTags" column="area_tags" />
+		<result property="isOpenComment" column="is_open_comment" />
+		<result property="dataType" column="datatype" />
+		<result property="infoType" column="info_type" />
+		<result property="categoryName" column="category_name" />
+		<result property="checkCategoryFlag" column="check_category_flag" />
+	</resultMap>
+
+
+	<select id="selectByProfileId" resultType="Seed"
+		resultMap="seedMap" parameterType="int">
+		SELECT
+		<include refid="columns" />
+		FROM s_rss 
+		where profile_id=#{profileId} 
+		and get_status=1 and get_type=5
+		order by create_time,url;
+	</select>
+	
+	<select id="findByName" resultType="Seed"
+		resultMap="seedMap" parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM s_rss 
+		where get_status=1 and profile_id=0 and get_type=5
+		<if test="keyword!=null">and rss_name like #{keyword} </if>
+		<if test="sort!=null">ORDER BY ${sort} ${order}</if>
+		limit #{offset},#{size};
+	</select>
+	
+	<select id="selectCount" resultType="int" parameterType="string">
+		SELECT
+		count(id)
+		FROM s_rss 
+		where get_status=1 and profile_id=0 and get_type=5
+		<if test = "_parameter!=null">
+			AND rss_name like #{_parameter}
+		</if>	
+	</select>
+	
+	<select id="findByUrl" resultType="int" parameterType="string">
+		SELECT
+		id
+		FROM s_rss
+		WHERE url=#{_parameter}
+		limit 1;
+	</select>
+	
+	<update id="updateProfileIdById" parameterType="map">
+		UPDATE s_rss SET profile_id=#{profileId} where id in 
+		<foreach item="item" index="index" collection="seeds" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach> 
+	</update>
+	
+	<update id="updateProfileId" parameterType="int">
+		UPDATE s_rss SET profile_id=0 where profile_id = #{profileId}
+	</update>
+</mapper>

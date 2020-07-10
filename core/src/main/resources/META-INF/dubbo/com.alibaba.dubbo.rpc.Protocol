@@ -1,0 +1,2 @@
+thrift2=com.sodao.dubbo.thrift.ThriftRpcProtocol
+dubbo=com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol

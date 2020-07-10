@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出。 -->
+<!-- monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数。 -->
+<configuration status="error" monitorInterval="60">
+
+	<properties>  
+        <property name="LOG_HOME">//data/dubboCore/logs</property>  
+        <!-- 日志备份目录 -->  
+        <property name="BACKUP_HOME">{LOG_HOME}/backup</property>  
+        <property name="STAT_NAME">stat</property>  
+        <property name="SERVER_NAME">global</property>  
+    </properties>  
+    
+	<!--先定义所有的appender -->
+	<appenders>
+		<!--这个输出控制台的配置 -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="trace" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<!--这个都知道是输出日志的格式 -->
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+		</Console>
+		
+		<!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 -->
+		<!-- <File name="log" fileName="/${LOG_HOME}/zhiziCore_daily.log" append="false">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+		</File> -->
+		
+		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingRandomAccessFile  name="rollDailyLog" fileName="/${LOG_HOME}/zhiziCore_daily.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/zhiziCore_daily-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="500MB" />
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="200" />
+		</RollingRandomAccessFile >
+		
+		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingRandomAccessFile  name="qcnlog" fileName="/${LOG_HOME}/qcn_daily.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/qcn_daily-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="100MB" />
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="200" />
+		</RollingRandomAccessFile >
+		
+		<RollingRandomAccessFile  name="cmslog" fileName="/${LOG_HOME}/cms.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/cms.%i.log">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="100MB" />
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="200" />
+		</RollingRandomAccessFile >
+		
+		<RollingRandomAccessFile  name="toErrFile" fileName="/${LOG_HOME}/zhiziCore_err_daily.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/zhiziCore_err_daily.%i.log">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<SizeBasedTriggeringPolicy size="100MB" />
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+			<DefaultRolloverStrategy max="200" />
+		</RollingRandomAccessFile >
+		
+		<RollingRandomAccessFile  name="reqLog" fileName="/${LOG_HOME}/RequestLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/RequestLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile >  
+		
+		<RollingRandomAccessFile  name="respLog" fileName="/${LOG_HOME}/ResponseLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/ResponseLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile >
+		
+		<RollingRandomAccessFile  name="qcnreqLog" fileName="/${LOG_HOME}/QCNRequestLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/QCNRequestLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile > 
+		
+		<RollingRandomAccessFile  name="qcnrespLog" fileName="/${LOG_HOME}/QCNResponseLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/QCNResponseLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile > 
+		
+		<RollingRandomAccessFile  name="allInfoReadedLog" fileName="/${LOG_HOME}/AllInfoReadedLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/AllInfoReadedLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile > 
+		
+		<RollingRandomAccessFile  name="flowExpLog" fileName="/${LOG_HOME}/flowExpLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/flowExpLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile > 
+		
+		<RollingRandomAccessFile  name="flowExpPVLog" fileName="/${LOG_HOME}/flowExpPVLog.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/flowExpPVLog-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile> 
+
+        <RollingRandomAccessFile  name="impression-flow-explore-log" fileName="/${LOG_HOME}/impression-flow-explore-log.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/impression-flow-explore-log-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %M %msg%xEx%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile  name="fallback" fileName="/${LOG_HOME}/fallback.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/fallback-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %class{36} %L - %msg%xEx%n" />
+            <Policies>
+            <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile  name="flow-explore-check-exploring-detail" fileName="/${LOG_HOME}/flow-explore-check-exploring-detail.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/flow-explore-check-exploring-detail-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %M %L - %msg%xEx%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile  name="flow-explore-process-detail" fileName="/${LOG_HOME}/flow-explore-process-detail.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/flow-explore-process-detail-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %M %L - %msg%xEx%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+		<RollingRandomAccessFile  name="monitorlog" fileName="/${LOG_HOME}/monitor/coreMonitor.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/coreMonitor-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss}||%m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile>
+		
+		<!-- yezi 2018年4月4日11:51:22  增加公告监控日志  -->
+		<RollingRandomAccessFile  name="monitorCommLog" fileName="/${LOG_HOME}/monitor/coreMonitor.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/coreMonitor-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss}||%m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile>
+		
+
+        <RollingRandomAccessFile  name="request_tracking" fileName="/${LOG_HOME}/request_tracking.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/request_tracking-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}%msg%xEx%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingRandomAccessFile>
+		
+        <RollingRandomAccessFile  name="elklog" fileName="/${LOG_HOME}/elk.log"
+            filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/elk-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1" />
+            </Policies>
+        </RollingRandomAccessFile>
+
+		<RollingRandomAccessFile  name="error_appender" fileName="/${LOG_HOME}/error.log"
+			filePattern="/${LOG_HOME}/$${date:yyyy-MM-dd}/app-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %class{36} %L %M - %msg%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1" />
+			</Policies>
+		</RollingRandomAccessFile>  
+	</appenders>
+	
+	
+	<!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		<!-- <logger name="log" level="trace" additivity="false">
+			<appender-ref ref="log" />
+		</logger> -->
+			
+		<!-- <logger name="error_appender" level="trace" additivity="false">
+			<appender-ref ref="error_appender" />
+		</logger> -->
+		
+		<logger name="org.springframework.core" level="info">  
+        </logger>  
+        <logger name="org.springframework.beans" level="info">  
+        </logger>  
+        <logger name="org.springframework.context" level="info">  
+        </logger>  
+        <logger name="org.springframework.web" level="info">  
+        </logger>
+		
+		<logger name="qcnlog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="qcnlog" />
+		</logger>
+		
+		<logger name="cmslog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="cmslog" />
+		</logger>
+		
+		<logger name="toErrFile" level="error" additivity="false" includeLocation="true">
+			<appender-ref ref="toErrFile" />
+		</logger>
+		
+		<logger name="reqLog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="reqLog" />
+		</logger>
+		
+		<logger name="resLog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="respLog" />
+		</logger>
+		
+		<logger name="qcnreqLog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="qcnreqLog" />
+		</logger>
+		
+		<logger name="qcnresLog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="qcnrespLog" />
+		</logger>
+		
+		<logger name="allInfoReadedLog" level="debug" additivity="false" includeLocation="true">
+			<appender-ref ref="allInfoReadedLog" />
+		</logger>
+		
+		<logger name="flowExpLog" level="debug" additivity="false" includeLocation="true">
+			<appender-ref ref="flowExpLog" />
+		</logger>
+		
+		<logger name="flowExpPVLog" level="debug" additivity="false" includeLocation="true">
+			<appender-ref ref="flowExpPVLog" />
+		</logger>
+
+        <logger name="impression-flow-explore-log" level="debug" additivity="false" includeLocation="true">
+            <appender-ref ref="impression-flow-explore-log" />
+        </logger>
+		
+        <logger name="fallback" level="debug" additivity="false" includeLocation="true">
+            <appender-ref ref="fallback" />
+        </logger>
+
+        <logger name="flow-explore-check-exploring-detail" level="debug" additivity="false" includeLocation="true">
+            <appender-ref ref="flow-explore-check-exploring-detail" />
+        </logger>
+              
+        <logger name="flow-explore-process-detail" level="debug" additivity="false" includeLocation="true">
+            <appender-ref ref="flow-explore-process-detail" />
+        </logger>
+
+        <logger name="elklog" level="info" additivity="false" includeLocation="true">
+            <appender-ref ref="elklog" />
+        </logger>
+
+		<logger name="monitorlog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="monitorlog" />
+		</logger>
+		
+		<logger name="monitorCommLog" level="info" additivity="false" includeLocation="true">
+			<appender-ref ref="monitorCommLog" />
+		</logger>
+		
+		
+        <logger name="request_tracking" level="debug" additivity="false" includeLocation="true">
+            <appender-ref ref="request_tracking" />
+        </logger>
+
+		<!--建立一个默认的root的logger -->
+		<root level="debug"  includeLocation="true">
+			<appender-ref ref="rollDailyLog" />
+			<!-- <appender-ref ref="Console" /> -->
+		</root>
+	</loggers>
+</configuration>

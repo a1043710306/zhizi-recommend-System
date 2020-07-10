@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.UserMapper">
+	<sql id="columns">
+		username,`password`
+	</sql>
+	
+	<resultMap type="User" id="userMap">
+		<id property="userName" column="username" />
+		<result property="password" column="password" />
+	</resultMap>
+
+
+	<select id="select" resultType="User"
+		resultMap="userMap" parameterType="User">
+		SELECT
+		<include refid="columns" />
+		FROM t_user 
+		where username=#{userName} and `password`=#{password};
+	</select>
+</mapper>

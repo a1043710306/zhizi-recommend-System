@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd  
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- <dubbo:application name="zhiziCore" owner="inveno.huangyiming" /> -->
+	<dubbo:registry address="${dubbo.provider}" client="curator" />
+<!-- 	<dubbo:registry address="zookeeper://192.168.1.223:2181?proxy=thrift2" client="curator" /> -->	
+
+ <!-- <dubbo:registry address="multicast://224.5.6.7:1234?proxy=thrift2" file="provider-123.properties"/> -->
+	
+	<!-- 用registry协议配置监视器 -->
+	<!-- <dubbo:monitor protocol="registry" /> -->
+	
+	<dubbo:protocol id="thrift_out" name="thrift2" port="${dubbo.provider.port}" threads="200" dispatcher="message" />
+
+	<bean id="coreHandler" class="com.inveno.core.process.CoreHandler">
+	   <property name="threadPoolTaskExecutor" ref="threadPoolTaskExecutor" />
+	   <property name="resultProcessAllImpl" ref="resultProcessAllImpl" />
+  	</bean>
+	<dubbo:service id="coreHandlerImpl"  interface="com.inveno.thrift.ZhiziCore$Iface" ref="coreHandler" protocol="thrift_out" executes="400" timeout="28000"
+		retries="0" loadbalance="roundrobin" cluster="failover">
+	</dubbo:service>
+
+</beans>

@@ -1,0 +1,501 @@
+{
+	"image_constraint" : {
+		"overall" : {
+			"aspectRatio" : 0.5
+			, "minWidth"  : 170
+			, "minHeight" : 170
+			, "maxWidth"  : 550
+			, "maxHeight" : 550
+		}
+	}
+	, "sourcefilter" : {
+		"overall" : [
+			{
+				"name" : "过滤条件1（朵唯）"
+				, "firm_id" : 9
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "过滤条件2（华为）"
+				, "firm_id" : 12
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "过滤条件3（酷派）"
+				, "firm_id" : 2
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [3,4,5]
+			}
+		]
+		,"朵唯" : [
+			{
+				"name" : "1"
+				, "firm_id" : 9
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "2"
+				, "firm_id" : 9
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [1]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "3"
+				, "firm_id" : 9
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [2]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "4"
+				, "firm_id" : 9
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [3]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "5"
+				, "firm_id" : 9
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [4]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "6"
+				, "firm_id" : 9
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [5]
+				, "audience_scale" : [3,4,5]
+			}
+			, {
+				"name" : "7"
+				, "firm_id" : 9
+				, "description" : "放宽受众面可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2]
+			}
+			, {
+				"name" : "8"
+				, "firm_id" : 9
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2]
+			}
+			, {
+				"name" : "9"
+				, "firm_id" : 9
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2]
+			}
+			, {
+				"name" : "10"
+				, "firm_id" : 9
+				, "description" : "因受众面低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1]
+			}
+			, {
+				"name" : "11"
+				, "firm_id" : 9
+				, "description" : "因质量低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["低"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1,2,3,4,5]
+			}
+		]
+		, "华为" : [
+			{
+				"name" : "1"
+				, "firm_id" : 12
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "2"
+				, "firm_id" : 12
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [1]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "3"
+				, "firm_id" : 12
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [2]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "4"
+				, "firm_id" : 12
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [3]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "5"
+				, "firm_id" : 12
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [4]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "6"
+				, "firm_id" : 12
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [5]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "7"
+				, "firm_id" : 12
+				, "description" : "放宽受众面可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "8"
+				, "firm_id" : 12
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "9"
+				, "firm_id" : 12
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "10"
+				, "firm_id" : 12
+				, "description" : "放宽受众面可增加量，有色情过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "11"
+				, "firm_id" : 12
+				, "description" : "放宽受众面，有色情过滤和广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "12"
+				, "firm_id" : 12
+				, "description" : "放宽受众面，有色情过滤和广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "13"
+				, "firm_id" : 12
+				, "description" : "放宽质量可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "14"
+				, "firm_id" : 12
+				, "description" : "放宽质量，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "15"
+				, "firm_id" : 12
+				, "description" : "放宽质量，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "16"
+				, "firm_id" : 12
+				, "description" : "放宽、质量受众面可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "17"
+				, "firm_id" : 12
+				, "description" : "放宽质量、受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "18"
+				, "firm_id" : 12
+				, "description" : "放宽质量、受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [0,1,2,3]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "19"
+				, "firm_id" : 12
+				, "description" : "放宽质量、受众面可增加量，有色情过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "20"
+				, "firm_id" : 12
+				, "description" : "放宽质量、受众面，有色情过滤和广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "21"
+				, "firm_id" : 12
+				, "description" : "放宽质量、受众面，有色情过滤和广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["中"]
+				, "adult_score" : [4,5]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2,3,4,5]
+			}
+			, {
+				"name" : "22"
+				, "firm_id" : 12
+				, "description" : "因受众面低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1]
+			}
+			, {
+				"name" : "23"
+				, "firm_id" : 12
+				, "description" : "因质量低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["低"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1,2,3,4,5]
+			}
+		]
+		, "酷派" : [
+			{
+				"name" : "1"
+				, "firm_id" : 2
+				, "description" : ""
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "2"
+				, "firm_id" : 2
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [1]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "3"
+				, "firm_id" : 2
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [2]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "4"
+				, "firm_id" : 2
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [3]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "5"
+				, "firm_id" : 2
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [4]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "6"
+				, "firm_id" : 2
+				, "description" : "有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [5]
+				, "audience_scale" : [4,5]
+			}
+			, {
+				"name" : "7"
+				, "firm_id" : 2
+				, "description" : "放宽受众面可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "8"
+				, "firm_id" : 2
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [1,2]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "9"
+				, "firm_id" : 2
+				, "description" : "放宽受众面，有广告过滤后可增加量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [3,4,5]
+				, "audience_scale" : [2,3]
+			}
+			, {
+				"name" : "10"
+				, "firm_id" : 2
+				, "description" : "因受众面低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["高","中"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1]
+			}
+			, {
+				"name" : "11"
+				, "firm_id" : 2
+				, "description" : "因质量低剔除量"
+				, "effectiveness" : ["高","中","低"]
+				, "quality" : ["低"]
+				, "adult_score" : [0,1,2,3,4,5]
+				, "advertisement_score" : [0,1,2,3,4,5]
+				, "audience_scale" : [0,1,2,3,4,5]
+			}
+		]
+	}
+}

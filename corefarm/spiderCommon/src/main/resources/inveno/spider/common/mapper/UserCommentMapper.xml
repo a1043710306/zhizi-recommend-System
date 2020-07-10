@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="inveno.spider.common.mapper.UserCommentMapper" >
+	<resultMap id="BaseResultMap" type="inveno.spider.common.model.UserComment" >
+		<id     column="comm_id"       property="id"           jdbcType="VARCHAR" />
+		<result column="content_id"    property="contentId"    jdbcType="VARCHAR" />
+		<result column="content_type"  property="contentType"  jdbcType="VARCHAR" />
+		<result column="content_md5"   property="contentMD5"   jdbcType="VARCHAR" />
+		<result column="comm_content"  property="content"      jdbcType="VARCHAR" />
+		<result column="comm_like"     property="likeCount"    jdbcType="INTEGER" />
+		<result column="comm_dislike"  property="dislikeCount" jdbcType="INTEGER" />
+		<result column="user_id"       property="userId"       jdbcType="INTEGER" />
+		<result column="user_name"     property="userName"     jdbcType="VARCHAR" />
+		<result column="user_photo"    property="userPhoto"    jdbcType="VARCHAR" />
+		<result column="reply_user_id"    property="replyUserId"    jdbcType="INTEGER" />
+		<result column="reply_user_name"  property="replyUserName"  jdbcType="VARCHAR" />
+		<result column="reply_user_photo" property="replyUserPhoto" jdbcType="VARCHAR" />
+		<result column="comm_insert_time" property="insertTime"   jdbcType="INTEGER" />
+		<result column="comm_upd_time"    property="updateTime"   jdbcType="INTEGER" />
+		<result column="comm_status"      property="status"       jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		id, content_id, content_type, content_md5, comment, user_name, user_photo, insert_time, update_time, status
+	</sql>
+
+	<insert id="insert" parameterType="inveno.spider.common.model.UserComment" >
+		insert into tpcr_hotoday_comment (comm_id, content_id, content_type, content_md5, comm_content, comm_like, comm_dislike, user_id, user_name, user_photo, reply_user_id, reply_user_name, reply_user_photo, comm_insert_time, comm_upd_time, comm_status) values (#{id,jdbcType=VARCHAR}, #{contentId,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, #{contentMD5,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, #{dislikeCount,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPhoto,jdbcType=VARCHAR}, #{replyUserId,jdbcType=INTEGER}, #{replyUserName,jdbcType=VARCHAR}, #{replyUserPhoto,jdbcType=VARCHAR}, #{insertTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="selectListById" resultType="inveno.spider.common.model.UserComment" resultMap="BaseResultMap" parameterType="string">
+		select <include refid="Base_Column_List" /> from tpcr_hotoday_comment where id <![CDATA[ = ]]> #{id} limit 1
+	</select>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.ChannelContentMapper">
+	<sql id="columns">
+		id, create_time, title, content, source, show_source,
+		state, original_url,
+		is_have_img, cut_img_url, img_url, intro,
+		type_code, rss_id,
+		original_time, release_time, is_widget_show
+		,market_id,market_title,
+		cp_type,sub_type,datatype,hot,tags,locations,is_head,score,info_type,roll_back,key_word,is_open_comment,img_count,firm_name,tags_id,push_version,category_name,is_original,banner,is_success,active_flag,second
+	</sql>
+
+	<sql id="insertColumns">
+		create_time, title, content, source, show_source, state,
+		original_url,
+		is_have_img, cut_img_url, img_url, intro, type_code,
+		rss_id,
+		original_time, release_time, is_widget_show
+		,market_id,market_title,
+		cp_type,sub_type,datatype,hot,tags,locations,is_head,score,info_type,roll_back,key_word,is_open_comment,img_count,banner,firm_name,tags_id,push_version,category_name,is_original,is_success,city_id,active_flag,second
+	</sql>
+
+	<resultMap type="ChannelContent" id="infoMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="source" column="source" />
+		<result property="showSource" column="show_source" />
+		<result property="state" column="state" />
+		<result property="originalUrl" column="original_url" />
+		<result property="isHaveImg" column="is_have_img" />
+		<result property="cutImgUrl" column="cut_img_url" />
+		<result property="imgUrl" column="img_url" />
+		<result property="intro" column="intro" />
+		<result property="typeCode" column="type_code" />
+		<result property="rssId" column="rss_id" />
+		<result property="originalTime" column="original_time" />
+		<result property="releaseTime" column="release_time" />
+		<result property="isWidgetShow" column="is_widget_show" />
+		<result property="marketId" column="market_id" />
+		<result property="marketTitle" column="market_title" />
+		<result property="cpType" column="cp_type" />
+		<result property="subType" column="sub_type" />
+		<result property="datatype" column="datatype" />
+		<result property="hot" column="hot" />
+		<result property="tags" column="tags" />
+		<result property="locations" column="locations" />
+		<result property="isHead" column="is_head" />
+		<result property="score" column="score" />
+		<result property="isOpenComment" column="is_open_comment" />
+		<result property="infoType" column="info_type" />
+		<result property="keyWord" column="key_word" />
+		<result property="rollBack" column="roll_back" />
+		<result property="subtype" column="subtype" />
+		<result property="imgCount" column="img_count" />
+		<result property="banner" column="banner" />
+		<result property="firmName" column="firm_name" />
+		<result property="tagsId" column="tags_id" />
+		<result property="pushVersion" column="push_version" />
+		<result property="categoryName" column="category_name" />
+		<result property="isOriginal" column="is_original" />
+		<result property="isSuccess" column="is_success" />
+		<result property="cityId" column="city_id" />
+		<result property="activeFlag" column="active_flag" />
+		<result property="second" column="second" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="ChannelContent" flushCache="true"
+		statementType="PREPARED" timeout="20000">
+
+		<selectKey resultType="int" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		INSERT INTO s_channel_content (
+		<include refid="insertColumns" />
+		)
+		VALUES
+		(
+		#{createTime},#{title},#{content},#{source},#{showSource},#{state},
+		#{originalUrl},#{isHaveImg},#{cutImgUrl},#{imgUrl},#{intro},
+		#{typeCode},#{rssId},#{originalTime},#{releaseTime},
+		#{isWidgetShow},#{marketId},#{marketTitle},#{cpType},#{subType},
+		#{datatype},#{hot},#{tags},#{locations},#{isHead},#{score},#{infoType},
+		#{rollBack},#{keyWord},#{isOpenComment},#{imgCount},#{banner},#{firmName},#{tagsId},#{pushVersion},#{categoryName},#{isOriginal},#{isSuccess},#{cityId},#{activeFlag},#{second}
+		)
+
+	</insert>
+</mapper>

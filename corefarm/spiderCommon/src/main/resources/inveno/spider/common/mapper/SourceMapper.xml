@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.SourceMapper">
+	<sql id="columns">
+		id,source_name,exempt_review
+	</sql>
+	
+	<resultMap type="Source" id="SourceMap">
+		<id property="id" column="id" />
+		<result property="sourceName" column="source_name" />
+		<result property="exemptReview" column="exempt_review" />
+	</resultMap>
+
+
+	<select id="select" resultType="Source"
+		resultMap="SourceMap" parameterType="Source">
+		SELECT
+		<include refid="columns" />
+		FROM t_source WHERE exempt_review = 1
+	</select>
+</mapper>

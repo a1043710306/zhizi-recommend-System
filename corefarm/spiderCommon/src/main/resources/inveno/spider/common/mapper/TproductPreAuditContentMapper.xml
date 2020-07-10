@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.TproductPreAuditContentMapper">
+
+	<insert id="insert" parameterType="inveno.spider.common.model.TproductPreAuditContent">
+		insert into
+		t_product_pre_audit_content (content_id, firm_app)
+		values
+		(#{contentId,jdbcType=VARCHAR}, #{firmApp,jdbcType=LONGVARCHAR})
+	</insert>
+
+</mapper>

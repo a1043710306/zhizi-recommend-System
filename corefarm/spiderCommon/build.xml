@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Common" default="jar" basedir=".">
+	<property environment="env" />
+
+	<property name="src" value="${basedir}/src/main/java" />
+	<property name="resources" value="${basedir}/src/main/resources" />
+	<property name="bin" value="${basedir}/bin" />
+	<property name="build" value="${basedir}/build" />
+	<property name="lib" value="${basedir}/lib" />
+
+	<property file="version.properties" />
+	<property name="jarname" value="spider-common-${version}.jar"></property>
+
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete dir="${build}" />
+	</target>
+
+	<target name="init">
+			<mkdir dir="${bin}" />
+			<mkdir dir="${build}" />
+			<path id="classpath">
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</target>
+
+		<target name="compile">
+			<echo>Compile...</echo>
+			<javac encoding="UTF-8" srcdir="${src}" destdir="${bin}" includeantruntime="false" compiler="modern" fork="yes" debug="on"
+				source="1.6" target="1.6">
+				<exclude/>
+				<compilerarg value="-Xlint:-path" />
+				<compilerarg value="-Xlint:unchecked"/>
+				<compilerarg value="-Xlint:deprecation"/>
+				<classpath refid="classpath" />
+			</javac>
+			<copy todir="${bin}">
+				<fileset dir="${src}">
+					<exclude name="**/.svn"/>
+					<exclude name="**/*.java"/>
+				</fileset>
+				<fileset dir="${resources}"/>
+			 </copy>
+		</target>
+
+
+	<target name="jar" depends="clean,init,compile">
+		<jar destfile="${build}/${jarname}">
+			<fileset dir="${bin}" includes="**/*">
+				<exclude name="spider-common.properties"/>
+				<exclude name="log4j.xml"/>
+			</fileset>
+		</jar>
+		<echo>Jar...</echo>
+	</target>
+
+</project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="spider-common.properties" />
+	
+	<typeAliases>
+		<typeAlias alias="ChannelContent" type="inveno.spider.common.model.ChannelContent"/>
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${db.driver}" />
+				<property name="url" value="${db.connection.url.other}" />
+				<property name="username" value="${db.username.other}" />
+				<property name="password" value="${db.password.other}" />
+
+				
+				<property name="poolMaximumActiveConnections" value="30"/>  
+                <property name="poolMaximumIdleConnections" value="15"/>  
+                <property name="poolMaximumCheckoutTime" value="20000"/>  
+                <property name="poolPingQuery" value="SELECT 1"/>  
+                <property name="poolPingEnabled" value="true"/>  
+                <property name="poolPingConnectionsNotUsedFor" value="0"/>  
+			</dataSource>
+		</environment>
+		
+	</environments>
+
+	<mappers>
+		<mapper resource="inveno/spider/common/mapper/ChannelContentMapper.xml" />
+	</mappers>
+</configuration>

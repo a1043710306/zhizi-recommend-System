@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.CategoryVersionMappingMapper">
+	<sql id="columns">
+		version, category_id, mapping_version, mapping_category_id
+	</sql>
+	
+	<resultMap type="CategoryVersionMapping" id="CategoryVersionMappingMap">
+		<result property="version"           column="version" />
+		<result property="categoryId"        column="category_id" />
+		<result property="mappingVersion"    column="mapping_version" />
+		<result property="mappingCategoryId" column="mapping_category_id" />
+	</resultMap>
+	
+	<select id="selectAll" resultType="CategoryVersionMapping" resultMap="CategoryVersionMappingMap">
+		select * from t_category_version_mapping
+	</select>
+</mapper>

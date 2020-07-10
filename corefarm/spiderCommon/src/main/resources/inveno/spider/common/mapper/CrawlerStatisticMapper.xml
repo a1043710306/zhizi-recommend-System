@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inveno.spider.common.mapper.CrawlerStatisticMapper">
+	<resultMap type="CrawlerStatistic" id="crawlerStatisticMap">
+		<id property="timestamp"      column="timestamp" />
+		<id property="type"           column="type" />
+		<id property="source"         column="source" />
+		<id property="sourceType"     column="source_type" />
+		<result property="crawledAmount"    column="crawled_amount" />
+		<result property="warehousedAmount" column="warehoused_amount" />
+		<result property="publishedAmount"  column="published_amount" />
+		<result property="deliveredAmount"  column="delivered_amount" />
+		<result property="updateTime"       column="update_time" />
+	</resultMap>
+
+
+	<select id="select" resultType="CrawlerStatistic" resultMap="crawlerStatisticMap" parameterType="map">
+		SELECT * from t_spider_statistic where timestamp=#{timestamp} and type=#{type} and source=#{source} and source_type=#{sourceType} limit 1;
+	</select>
+
+	<insert id="insert" parameterType="map" >
+		INSERT INTO t_spider_statistic(timestamp, type, source, source_type, crawled_amount, warehoused_amount, published_amount, delivered_amount, update_time) VALUES (#{timestamp}, #{type}, #{source}, #{sourceType}, #{crawledAmount}, #{warehousedAmount}, #{publishedAmount}, #{deliveredAmount}, now());
+	</insert>
+
+	<update id="increaseCrawledAmount" parameterType="map" >
+		UPDATE t_spider_statistic SET crawled_amount=crawled_amount+1, update_time=now() where timestamp=#{timestamp} and type=#{type} and source=#{source} and source_type=#{sourceType};
+	</update>
+
+	<update id="increaseWarehousedAmount" parameterType="map" >
+		UPDATE t_spider_statistic SET warehoused_amount=warehoused_amount+1, update_time=now() where timestamp=#{timestamp} and type=#{type} and source=#{source} and source_type=#{sourceType};
+	</update>
+
+	<update id="increasePublishedAmount" parameterType="map" >
+		UPDATE t_spider_statistic SET published_amount=published_amount+1, update_time=now() where timestamp=#{timestamp} and type=#{type} and source=#{source} and source_type=#{sourceType};
+	</update>
+
+	<update id="increaseDeliveredAmount" parameterType="map" >
+		UPDATE t_spider_statistic SET delivered_amount=delivered_amountdelivered_amount+1, update_time=now() where timestamp=#{timestamp} and type=#{type} and source=#{source} and source_type=#{sourceType};
+	</update>
+</mapper>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="inveno-spider-reports" default="all">
+  
+  
+  <property file="inveno-spider-reports.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.commons-io:commons-io:2.5.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-io/commons-io/2.5/commons-io-2.5.jar"/>
+  </path>
+  
+  <path id="library.lwdba-0.8.0.classpath">
+    <fileset dir="${basedir}/lib" includes="*.jar"/>
+  </path>
+  
+  <path id="library.maven:_com.google.code.gson:gson:2.6.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/google/code/gson/gson/2.6.2/gson-2.6.2.jar"/>
+  </path>
+  
+  <path id="library.maven:_com.inveno.spider.utils:inveno-spider-utils:0.0.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/inveno/spider/utils/inveno-spider-utils/0.0.2/inveno-spider-utils-0.0.2.jar"/>
+  </path>
+  
+  <path id="library.maven:_com.sun.mail:javax.mail:1.5.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/sun/mail/javax.mail/1.5.2/javax.mail-1.5.2.jar"/>
+  </path>
+  
+  <path id="library.maven:_commons-dbcp:commons-dbcp:1.4.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar"/>
+  </path>
+  
+  <path id="library.maven:_commons-io:commons-io:2.5.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-io/commons-io/2.5/commons-io-2.5.jar"/>
+  </path>
+  
+  <path id="library.maven:_commons-pool:commons-pool:1.5.4.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar"/>
+  </path>
+  
+  <path id="library.maven:_javax.activation:activation:1.1.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/javax/activation/activation/1.1.1/activation-1.1.1.jar"/>
+  </path>
+  
+  <path id="library.maven:_javax.mail:mail:1.4.3.classpath">
+    <pathelement location="${path.variable.maven_repository}/javax/mail/mail/1.4.3/mail-1.4.3.jar"/>
+  </path>
+  
+  <path id="library.maven:_junit:junit:4.8.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.8.1/junit-4.8.1.jar"/>
+  </path>
+  
+  <path id="library.maven:_log4j:log4j:1.2.17.classpath">
+    <pathelement location="${path.variable.maven_repository}/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="library.maven:_mysql:mysql-connector-java:5.1.38.classpath">
+    <pathelement location="${path.variable.maven_repository}/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.apache.commons:commons-email:1.4.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/apache/commons/commons-email/1.4/commons-email-1.4.jar"/>
+  </path>
+
+  <path id="library.maven:_com.madgag:animated-gif-lib:1.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/madgag/animated-gif-lib/1.2/animated-gif-lib-1.2.jar"/>
+  </path>
+
+  <path id="library.maven:_org.jsoup:jsoup:1.9.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jsoup/jsoup/1.9.1/jsoup-1.9.1.jar"/>
+  </path>
+
+  <path id="library.maven:_commons.cli:commons-cli:1.3.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-cli/commons-cli/1.3.1/commons-cli-1.3.1.jar"/>
+  </path>
+
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module inveno-spider-reports -->
+  
+  <dirname property="module.inveno-spider-reports.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.inveno-spider-reports" value="${jdk.home.1.8}"/>
+  <property name="module.jdk.bin.inveno-spider-reports" value="${jdk.bin.1.8}"/>
+  <property name="module.jdk.classpath.inveno-spider-reports" value="jdk.classpath.1.8"/>
+  
+  <property name="compiler.args.inveno-spider-reports" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="inveno-spider-reports.output.dir" value="${module.inveno-spider-reports.basedir}/target/classes"/>
+  <property name="inveno-spider-reports.testoutput.dir" value="${module.inveno-spider-reports.basedir}/target/test-classes"/>
+  
+  <path id="inveno-spider-reports.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="inveno-spider-reports.module.production.classpath">
+    <path refid="${module.jdk.classpath.inveno-spider-reports}"/>
+    <path refid="library.lwdba-0.8.0.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-dbcp:commons-dbcp:1.4.classpath"/>
+    <path refid="library.maven:_commons-pool:commons-pool:1.5.4.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.6.2.classpath"/>
+    <path refid="library.maven:_com.inveno.spider.utils:inveno-spider-utils:0.0.2.classpath"/>
+    <path refid="library.maven:_javax.mail:mail:1.4.3.classpath"/>
+    <path refid="library.maven:_junit:junit:4.8.1.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-email:1.4.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.1.classpath"/>
+    <path refid="library.maven:_com.madgag:animated-gif-lib:1.2.classpath"/>
+    <path refid="library.maven:_org.jsoup:jsoup:1.9.1.classpath"/>
+    <path refid="library.maven:_commons.cli:commons-cli:1.3.1.classpath"/>
+  </path>
+  
+  <path id="inveno-spider-reports.runtime.production.module.classpath">
+    <pathelement location="${inveno-spider-reports.output.dir}"/>
+    <path refid="library.lwdba-0.8.0.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-dbcp:commons-dbcp:1.4.classpath"/>
+    <path refid="library.maven:_commons-pool:commons-pool:1.5.4.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.6.2.classpath"/>
+    <path refid="library.maven:_com.inveno.spider.utils:inveno-spider-utils:0.0.2.classpath"/>
+    <path refid="library.maven:_javax.mail:mail:1.4.3.classpath"/>
+    <path refid="library.maven:_junit:junit:4.8.1.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-email:1.4.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.1.classpath"/>
+    <path refid="library.maven:_com.madgag:animated-gif-lib:1.2.classpath"/>
+    <path refid="library.maven:_org.jsoup:jsoup:1.9.1.classpath"/>
+    <path refid="library.maven:_commons.cli:commons-cli:1.3.1.classpath"/>
+  </path>
+  
+  <path id="inveno-spider-reports.module.classpath">
+    <path refid="${module.jdk.classpath.inveno-spider-reports}"/>
+    <pathelement location="${inveno-spider-reports.output.dir}"/>
+    <path refid="library.lwdba-0.8.0.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-dbcp:commons-dbcp:1.4.classpath"/>
+    <path refid="library.maven:_commons-pool:commons-pool:1.5.4.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.6.2.classpath"/>
+    <path refid="library.maven:_com.inveno.spider.utils:inveno-spider-utils:0.0.2.classpath"/>
+    <path refid="library.maven:_javax.mail:mail:1.4.3.classpath"/>
+    <path refid="library.maven:_junit:junit:4.8.1.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-email:1.4.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.1.classpath"/>
+    <path refid="library.maven:_com.madgag:animated-gif-lib:1.2.classpath"/>
+    <path refid="library.maven:_org.jsoup:jsoup:1.9.1.classpath"/>
+    <path refid="library.maven:_commons.cli:commons-cli:1.3.1.classpath"/>
+  </path>
+  
+  <path id="inveno-spider-reports.runtime.module.classpath">
+    <pathelement location="${inveno-spider-reports.testoutput.dir}"/>
+    <pathelement location="${inveno-spider-reports.output.dir}"/>
+    <path refid="library.lwdba-0.8.0.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-dbcp:commons-dbcp:1.4.classpath"/>
+    <path refid="library.maven:_commons-pool:commons-pool:1.5.4.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:5.1.38.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.6.2.classpath"/>
+    <path refid="library.maven:_com.inveno.spider.utils:inveno-spider-utils:0.0.2.classpath"/>
+    <path refid="library.maven:_javax.mail:mail:1.4.3.classpath"/>
+    <path refid="library.maven:_junit:junit:4.8.1.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-email:1.4.classpath"/>
+    <path refid="library.maven:_com.sun.mail:javax.mail:1.5.2.classpath"/>
+    <path refid="library.maven:_javax.activation:activation:1.1.1.classpath"/>
+    <path refid="library.maven:_com.madgag:animated-gif-lib:1.2.classpath"/>
+    <path refid="library.maven:_org.jsoup:jsoup:1.9.1.classpath"/>
+    <path refid="library.maven:_commons.cli:commons-cli:1.3.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.inveno-spider-reports">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.inveno-spider-reports">
+    <patternset refid="excluded.from.module.inveno-spider-reports"/>
+  </patternset>
+  
+  <path id="inveno-spider-reports.module.sourcepath">
+    <dirset dir="${module.inveno-spider-reports.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="inveno-spider-reports.module.test.sourcepath">
+    <dirset dir="${module.inveno-spider-reports.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.inveno-spider-reports" depends="compile.module.inveno-spider-reports.production,compile.module.inveno-spider-reports.tests" description="Compile module inveno-spider-reports"/>
+  
+  <target name="compile.module.inveno-spider-reports.production" depends="register.custom.compilers" description="Compile module inveno-spider-reports; production classes">
+    <mkdir dir="${inveno-spider-reports.output.dir}"/>
+    <javac2 destdir="${inveno-spider-reports.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.inveno-spider-reports}/javac">
+      <compilerarg line="${compiler.args.inveno-spider-reports}"/>
+      <bootclasspath refid="inveno-spider-reports.module.bootclasspath"/>
+      <classpath refid="inveno-spider-reports.module.production.classpath"/>
+      <src refid="inveno-spider-reports.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.inveno-spider-reports"/>
+    </javac2>
+    
+    <copy todir="${inveno-spider-reports.output.dir}">
+      <fileset dir="${module.inveno-spider-reports.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.inveno-spider-reports.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+    <jar jarfile="inveno-spider-reports-${version}.jar">
+      <fileset dir="${inveno-spider-reports.output.dir}"/>
+    </jar>
+  </target>
+  
+  <target name="compile.module.inveno-spider-reports.tests" depends="register.custom.compilers,compile.module.inveno-spider-reports.production" description="compile module inveno-spider-reports; test classes" unless="skip.tests">
+    <mkdir dir="${inveno-spider-reports.testoutput.dir}"/>
+    <javac2 destdir="${inveno-spider-reports.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.inveno-spider-reports}/javac">
+      <compilerarg line="${compiler.args.inveno-spider-reports}"/>
+      <bootclasspath refid="inveno-spider-reports.module.bootclasspath"/>
+      <classpath refid="inveno-spider-reports.module.classpath"/>
+      <src refid="inveno-spider-reports.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.inveno-spider-reports"/>
+    </javac2>
+    
+    <copy todir="${inveno-spider-reports.testoutput.dir}">
+      <fileset dir="${module.inveno-spider-reports.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.inveno-spider-reports" description="cleanup module">
+    <delete dir="${inveno-spider-reports.output.dir}"/>
+    <delete dir="${inveno-spider-reports.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.inveno-spider-reports, clean.artifact.inveno-spider-reports" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.inveno-spider-reports" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.inveno-spider-reports" value="${basedir}/spider_reports_runtime"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="clean.artifact.inveno-spider-reports" description="clean inveno-spider-reports artifact output">
+    <delete dir="${artifact.output.inveno-spider-reports}"/>
+  </target>
+  
+  <target name="artifact.inveno-spider-reports" depends="init.artifacts" description="Build &#39;inveno-spider-reports&#39; artifact">
+    <mkdir dir="${artifact.output.inveno-spider-reports}"/>
+    <mkdir dir="${artifact.output.inveno-spider-reports}/lib"/>
+    <copy file="${basedir}/lib/lwdba-0.8.0.jar" tofile="${artifact.output.inveno-spider-reports}/lib/lwdba-0.8.0.jar"/>
+    <copy file="${path.variable.maven_repository}/com/google/code/gson/gson/2.6.2/gson-2.6.2.jar" tofile="${artifact.output.inveno-spider-reports}/lib/gson-2.6.2.jar"/>
+    <copy file="${path.variable.maven_repository}/com/inveno/spider/utils/inveno-spider-utils/0.0.2/inveno-spider-utils-0.0.2.jar" tofile="${artifact.output.inveno-spider-reports}/lib/inveno-spider-utils-0.0.2.jar"/>
+    <copy file="${path.variable.maven_repository}/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar" tofile="${artifact.output.inveno-spider-reports}/lib/commons-dbcp-1.4.jar"/>
+    <copy file="${path.variable.maven_repository}/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar" tofile="${artifact.output.inveno-spider-reports}/lib/commons-pool-1.5.4.jar"/>
+    <copy file="${path.variable.maven_repository}/javax/mail/mail/1.4.3/mail-1.4.3.jar" tofile="${artifact.output.inveno-spider-reports}/lib/mail-1.4.3.jar"/>
+    <copy file="${path.variable.maven_repository}/junit/junit/4.8.1/junit-4.8.1.jar" tofile="${artifact.output.inveno-spider-reports}/lib/junit-4.8.1.jar"/>
+    <copy file="${path.variable.maven_repository}/log4j/log4j/1.2.17/log4j-1.2.17.jar" tofile="${artifact.output.inveno-spider-reports}/lib/log4j-1.2.17.jar"/>
+    <copy file="${path.variable.maven_repository}/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar" tofile="${artifact.output.inveno-spider-reports}/lib/mysql-connector-java-5.1.38.jar"/>
+    <copy file="${path.variable.maven_repository}/commons-io/commons-io/2.5/commons-io-2.5.jar" tofile="${artifact.output.inveno-spider-reports}/lib/commons-io-2.5.jar"/>
+    <copy file="${path.variable.maven_repository}/com/sun/mail/javax.mail/1.5.2/javax.mail-1.5.2.jar" tofile="${artifact.output.inveno-spider-reports}/lib/javax.mail-1.5.2.jar"/>
+    <copy file="${path.variable.maven_repository}/org/apache/commons/commons-email/1.4/commons-email-1.4.jar" tofile="${artifact.output.inveno-spider-reports}/lib/commons-email-1.4.jar"/>
+    <copy file="${path.variable.maven_repository}/javax/activation/activation/1.1.1/activation-1.1.1.jar" tofile="${artifact.output.inveno-spider-reports}/lib/activation-1.1.1.jar"/>
+    <copy file="${basedir}/inveno-spider-reports-0.0.2.jar" tofile="${artifact.output.inveno-spider-reports}/lib/inveno-spider-reports-0.0.2.jar"/>
+    <copy file="${basedir}/config/log4j.properties" tofile="${artifact.output.inveno-spider-reports}/log4j.properties"/>
+    <copy file="${basedir}/config/lcp.bat" tofile="${artifact.output.inveno-spider-reports}/lcp.bat"/>
+    <copy file="${basedir}/config/run.bat" tofile="${artifact.output.inveno-spider-reports}/run.bat"/>
+    <copy file="${basedir}/config/run.sh" tofile="${artifact.output.inveno-spider-reports}/run.sh"/>
+    <copy file="${basedir}/config/sql_report_mysql.properties" tofile="${artifact.output.inveno-spider-reports}/sql_report_mysql.properties"/>
+    <copy file="${basedir}/config/system.properties" tofile="${artifact.output.inveno-spider-reports}/system.properties"/>
+    <copy file="${basedir}/config/filter.json" tofile="${artifact.output.inveno-spider-reports}/filter.json"/>
+    <copy file="${basedir}/config/source_filter_overview.tpl" tofile="${artifact.output.inveno-spider-reports}/source_filter_overview.tpl"/>
+    <copy file="${basedir}/config/source_filter_detail.tpl" tofile="${artifact.output.inveno-spider-reports}/source_filter_detail.tpl"/>
+    <copy file="${basedir}/config/source_filter_attachement.tpl" tofile="${artifact.output.inveno-spider-reports}/source_filter_attachement.tpl"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.inveno-spider-reports" description="Build all artifacts">
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>

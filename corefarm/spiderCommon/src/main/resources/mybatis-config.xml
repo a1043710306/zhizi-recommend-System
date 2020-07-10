@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="spider-common.properties" />
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="ChannelContentAudit"
+			type="inveno.spider.common.model.ChannelContentAudit" />
+		<typeAlias alias="CrawlerStatistic"
+			type="inveno.spider.common.model.CrawlerStatistic" />
+		<typeAlias alias="CategoryVersionMapping"
+			type="inveno.spider.common.model.CategoryVersionMapping" />
+		<typeAlias alias="ProfileView"
+			type="inveno.spider.common.view.model.ProfileView" />
+		<typeAlias alias="Seed" type="inveno.spider.common.model.Seed" />
+		<typeAlias alias="User" type="inveno.spider.common.model.User" />
+		<typeAlias alias="Category" type="inveno.spider.common.model.Category" />
+		<typeAlias alias="Content" type="inveno.spider.common.model.Content" />
+		<typeAlias alias="IdMapping" type="inveno.spider.common.model.IdMapping" />
+		<typeAlias alias="SensitiveWord" type="inveno.spider.common.model.SensitiveWord" />
+		<typeAlias alias="Source" type="inveno.spider.common.model.Source" />
+		<typeAlias alias="SourceFeed" type="inveno.spider.common.model.SourceFeed" />
+		<typeAlias alias="SourceFeedFirmAppMapping"
+			type="inveno.spider.common.model.SourceFeedFirmAppMapping" />
+		<typeAlias alias="FilterWord" type="inveno.spider.common.model.FilterWord" />
+		<typeAlias alias="PublisherWord" type="inveno.spider.common.model.PublisherWord" />
+		<typeAlias alias="PublisherRate" type="inveno.spider.common.model.PublisherRate" />
+		<typeAlias alias="TproductPreAuditContent"
+			type="inveno.spider.common.model.TproductPreAuditContent" />
+		<typeAlias alias="TimageHash" type="inveno.spider.common.model.ImageHash" />
+		<typeAlias alias="ImageUrlFilter" type="inveno.spider.common.model.ImageUrlFilter" />
+		<typeAlias alias="ContentExtend" type="inveno.spider.common.model.ContentExtend" />
+		<typeAlias alias="ContentIndex" type="inveno.spider.common.model.ContentIndex" />
+		<typeAlias alias="Publisher" type="inveno.spider.common.model.Publisher" />
+		<typeAlias alias="PublisherAlias" type="inveno.spider.common.model.PublisherAlias" />
+		<typeAlias alias="LinkPublisher" type="inveno.spider.common.model.LinkPublisher" />
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${db.driver}" />
+				<property name="url" value="${db.connection.url}" />
+				<property name="username" value="${db.username}" />
+				<property name="password" value="${db.password}" />
+				<property name="poolMaximumActiveConnections" value="30" />
+				<property name="poolMaximumIdleConnections" value="15" />
+				<property name="poolMaximumCheckoutTime" value="20000" />
+				<property name="poolPingQuery" value="SELECT 1" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<mappers>
+		<mapper resource="inveno/spider/common/mapper/ChannelContentAuditMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ProfileViewMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SeedMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/UserMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/CategoryMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SequenceMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ContentMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/CategoryVersionMappingMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/CrawlerStatisticMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SourceFeedMapper.xml" />
+		<mapper
+			resource="inveno/spider/common/mapper/SourceFeedFirmAppMappingMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/IdMappingMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SensitiveWordMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SourceMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/FilterWordMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/PublisherWordMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/PublisherRateMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/UserCommentMapper.xml" />
+		<mapper
+			resource="inveno/spider/common/mapper/TproductPreAuditContentMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ImageHashMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ImageUrlFilterMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ContentExtendMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ContentIndexMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SplitTableContentMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/PublisherMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/PublisherAliasMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/LinkPublisherMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/ImageSexyCheckMapper.xml" />
+		<mapper resource="inveno/spider/common/mapper/SourceFeedComicsMapper.xml" />
+	</mappers>
+</configuration>
