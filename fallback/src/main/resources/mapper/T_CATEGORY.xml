@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.inveno.fallback.dao.FallbackDao">
+	<resultMap id="baseResultMap" type="com.inveno.fallback.model.CategoryEntry">
+		<result column="ID" property="categoryId" jdbcType="INTEGER" />
+		<result column="EXPIRY_HOUR" property="expiryHour" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="queryCategoryids" resultMap="baseResultMap"  >
+		select id, expiry_hour from t_category where version="4"
+	</select>
+	
+</mapper>

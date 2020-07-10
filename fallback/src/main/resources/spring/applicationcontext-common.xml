@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.inveno.fallback" />
+	<context:annotation-config />
+	<aop:aspectj-autoproxy proxy-target-class="true"/> 
+     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer ">
+       <property name="locations">
+           <list>
+              <value>classpath:prop/redis.properties</value>
+              <value>classpath:prop/jdbc.properties</value>
+           </list>
+       </property>
+     </bean>
+     
+	 <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">	
+            <property name="maxIdle" value="${redis.maxIdle}" />
+            <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+            <property name="testOnReturn" value="${redis.testOnReturn}" />
+           <!-- <property name="maxActive" value="${redis.maxActive}" />
+            <property name="maxWait" value="${redis.maxWait}" />-->
+	 </bean>
+	 
+	 <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+	    <constructor-arg index="0">
+    	      <set>
+                    <ref bean="hostAndPort1" />
+        	    <ref bean="hostAndPort2" />
+        	    <ref bean="hostAndPort3" />
+    	            <ref bean="hostAndPort4" />
+    	            <ref bean="hostAndPort5" />
+    	            <ref bean="hostAndPort6" />
+	      </set>
+	    </constructor-arg >
+	    <constructor-arg index="1" ref="jedisPoolConfig"/>
+	 </bean>
+	 
+     
+         <bean id="hostAndPort1" class ="redis.clients.jedis.HostAndPort">
+          <constructor-arg value="${redis.host1}"/>
+          <constructor-arg value="${redis.port1}"/>
+         </bean>	 
+
+           <bean id="hostAndPort2" class ="redis.clients.jedis.HostAndPort">
+           <constructor-arg value="${redis.host2}"/>
+           <constructor-arg value="${redis.port2}"/>
+         </bean>	 
+         <bean id="hostAndPort3" class ="redis.clients.jedis.HostAndPort">
+           <constructor-arg value="${redis.host3}"/>
+           <constructor-arg value="${redis.port3}"/>
+         </bean>	 
+
+         <bean id="hostAndPort4" class ="redis.clients.jedis.HostAndPort">
+          <constructor-arg value="${redis.host4}"/>
+          <constructor-arg value="${redis.port4}"/>
+         </bean>	 
+         <bean id="hostAndPort5" class ="redis.clients.jedis.HostAndPort">
+           <constructor-arg value="${redis.host5}"/>
+           <constructor-arg value="${redis.port5}"/>
+         </bean>	 
+         <bean id="hostAndPort6" class ="redis.clients.jedis.HostAndPort">
+           <constructor-arg value="${redis.host6}"/>
+           <constructor-arg value="${redis.port6}"/>
+         </bean> 
+
+	 <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass">
+			<value>${ds.mysql.driverClass}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${ds.mysql.jdbcUrl}</value>
+		</property>
+		<property name="user">
+			<value>${ds.mysql.user}</value>
+		</property>
+		<property name="password">
+			<value>${ds.mysql.password}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value type="int">${ds.mysql.maxPoolSize}</value>
+		</property>
+		<property name="maxIdleTime">
+			<value type="int">${ds.mysql.maxIdleTime}</value>
+		</property>
+		<property name="maxStatementsPerConnection">
+			<value>${ds.mysql.maxStatementsPerConnection}</value>
+		</property>
+		<property name="numHelperThreads">
+			<value>${ds.mysql.numHelperThreads}</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>${ds.mysql.idleConnectionTestPeriod}</value>
+		</property> 
+		<property name="testConnectionOnCheckin">
+			<value>${ds.mysql.testConnectionOnCheckin}</value>
+		</property>
+		<property name="preferredTestQuery">
+			<value>${ds.mysql.preferredTestQuery}</value>
+		</property>
+		
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.inveno.fallback.model" />
+		<property name="mapperLocations" value="classpath*:mapper/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.inveno.fallback.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+    
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+    	
+</beans>

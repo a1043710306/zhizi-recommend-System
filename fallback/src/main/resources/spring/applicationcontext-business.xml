@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util">
+    
+	<context:component-scan base-package="com.inveno.fallback"/>
+    <task:annotation-driven />
+    
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+       <property name="triggers">  
+           <list>  
+              <ref bean="simpleEsQueryAndWriterToRedisFallbackTrigger"/>  
+           <!--    <ref bean="esUpdateFallbackTrigger"/>  --> 
+            <!--   <ref bean="esQueryAndWriterToRedisFallbackTrigger"/>   -->
+           </list>  
+       </property>  
+       <property name="autoStartup" value="true"/>  
+   </bean>  
+	
+	<!--  固定查询ES后更新ES start-->
+  <!--  <bean id="esUpdateFallbackTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+       <property name="jobDetail" ref="esUpdateFallbackJobDetail"/>  
+       <property name="cronExpression" value="*/30 * * * * ?"/>
+   </bean>
+   
+   <bean id="esUpdateFallbackJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="esUpdateFallbackJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程  
+   </bean>
+   
+   <bean id="esUpdateFallbackJob" class="com.inveno.fallback.task.impl.EsUpdateFallbackTaskImpl"/>   -->
+   <!--  固定查询ES后更新ES end-->
+	
+   <!-- 条件查询ES后写入REIDS start -->
+  <!--  <bean id="esQueryAndWriterToRedisFallbackTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+       <property name="jobDetail" ref="esQueryAndWriterToRedisFallbackJobDetail"/>  
+       <property name="cronExpression" value="*/30 * * * * ?"/>
+   </bean>
+   
+   <bean id="esQueryAndWriterToRedisFallbackJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="esQueryAndWriterToRedisFallbackJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程  
+   </bean>
+   
+   <bean id="esQueryAndWriterToRedisFallbackJob" class="com.inveno.fallback.task.impl.EsQueryAndWriterToRedisFallbackTaskImpl"/>   -->
+	<!-- 条件查询ES后写入REIDS end -->
+	
+	
+	<!-- 简单版job start-->
+    <bean id="simpleEsQueryAndWriterToRedisFallbackTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+       <property name="jobDetail" ref="simpleEsQueryAndWriterToRedisFallbackJobDetail"/>  
+       <property name="cronExpression" value="0 5/10 * * * ?"/>
+    </bean>
+   
+   <bean id="simpleEsQueryAndWriterToRedisFallbackJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="simpleEsQueryAndWriterToRedisFallbackJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+   </bean>
+   
+   <bean id="simpleEsQueryAndWriterToRedisFallbackJob" class="com.inveno.fallback.task.impl.SimpleEsQueryAndWriterToRedisFallbackTaskImpl"/>
+	<!-- 简单版job end-->
+	
+</beans>

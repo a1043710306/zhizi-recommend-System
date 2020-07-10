@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util">
+
+     <context:component-scan base-package="com.inveno.sire"/>
+
+     <task:annotation-driven />
+     
+     <!-- 监听配置 开始 -->
+     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer ">
+       <property name="locations">
+           <list>
+              <value>classpath:zk.properties</value>
+              <value>classpath:redis.properties</value>
+           </list>
+       </property>
+     </bean>
+     
+     <!-- <bean id="zkConfig" class="com.inveno.sire.model.ZkConfig">
+            <property name="host" value="${zk.host}"/>
+            <property name="port" value="${zk.port}"/>
+            <property name="path" value="${zk.path}"/>
+            <property name="sessionTimeoutMs" value="${zk.sessionTimeoutMs}"/>
+            <property name="connectionTimeoutMs" value="${zk.connectionTimeoutMs}"/>
+            <property name="baseSleepTimeMs" value="${zk.baseSleepTimeMs}"/>
+            <property name="maxRetries" value="${zk.maxRetries}"/>
+	 </bean>
+
+	 <bean id="curatorWatch" class="com.inveno.sire.monitor.CuratorWatch"/>-->
+	 <!-- 监听配置 结束-->
+
+    <!-- redis 配置开始-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="testOnReturn" value="${redis.testOnReturn}" />
+    </bean>
+
+    <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg index="0">
+            <set>
+                <ref bean="hostAndPort1" />
+                <ref bean="hostAndPort2" />
+                <ref bean="hostAndPort3" />
+                <ref bean="hostAndPort4" />
+                <ref bean="hostAndPort5" />
+                <ref bean="hostAndPort6" />
+            </set>
+        </constructor-arg >
+        <constructor-arg index="1" ref="jedisPoolConfig"/>
+    </bean>
+
+    <bean id="hostAndPort1" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host1}"/>
+        <constructor-arg value="${redis.port1}"/>
+    </bean>
+    <bean id="hostAndPort2" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host2}"/>
+        <constructor-arg value="${redis.port2}"/>
+    </bean>
+    <bean id="hostAndPort3" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host3}"/>
+        <constructor-arg value="${redis.port3}"/>
+    </bean>
+    <bean id="hostAndPort4" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host4}"/>
+        <constructor-arg value="${redis.port4}"/>
+    </bean>
+    <bean id="hostAndPort5" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host5}"/>
+        <constructor-arg value="${redis.port5}"/>
+    </bean>
+    <bean id="hostAndPort6" class ="redis.clients.jedis.HostAndPort">
+        <constructor-arg value="${redis.host6}"/>
+        <constructor-arg value="${redis.port6}"/>
+    </bean>
+    <!-- redis 配置结束-->
+
+    <!-- 定时任务配置开始-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="sireSycnDatasTimingTrigger"/>
+            </list>
+        </property>
+        <property name="autoStartup" value="true"/>
+    </bean>
+
+    <bean id="sireSycnDatasTimingTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="sireSycnDatasTimingJobDetail"/>
+        <property name="cronExpression" value="*/30 * * * * ?"/>
+    </bean>
+
+    <bean id="sireSycnDatasTimingJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sireSycnDatasTimingJob"/>
+        <property name="targetMethod" value="execute"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="sireSycnDatasTimingJob" class="com.inveno.sire.task.RedisToEsDatasSupportTask"/>
+    <!-- 定时任务配置结束-->
+
+    <!--<bean id="threadPool" class=" com.inveno.sire.threadpool.fixed.FixedThreadPool" />-->
+
+</beans>
